@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Siscobajio - Ultimate v9</title>
+    <title>Siscobajio System</title>
     <style>
-        /* --- ESTILOS GENERALES Y SKIN "AVENGER" --- */
+        /* --- ESTILOS SKIN "AVENGER" --- */
         :root {
             --bg-dark: #333;
             --win-bg: #bfbfbf;
-            --win-border-light: #fff;
-            --win-border-dark: #404040;
         }
 
         body { 
@@ -28,7 +26,6 @@
             background: linear-gradient(to bottom, #f0f0f0 0%, #d4d0c8 100%);
             border-bottom: 1px solid #404040; padding: 5px; 
             display: flex; gap: 5px; overflow-x: auto; flex-shrink: 0; align-items: center;
-            -webkit-overflow-scrolling: touch;
         }
         
         .tool-btn {
@@ -40,7 +37,7 @@
         .tool-icon { font-size: 22px; margin-bottom: 2px; }
         .tool-text { font-size: 10px; color: #333; font-weight: bold; text-align: center; }
 
-        /* NUEVO: ESTILO DEL BUSCADOR EN TOOLBAR */
+        /* BUSCADOR TOOLBAR */
         .tool-search-group {
             display: flex; flex-direction: column; justify-content: center;
             margin-left: 10px; padding-left: 10px; border-left: 1px solid #999; height: 50px;
@@ -183,16 +180,13 @@
         </div>
 
         <div class="spacer"></div>
-
         <div class="tool-btn" onclick="window.close()">
             <span class="tool-icon">🚪</span><span class="tool-text">SALIR</span>
         </div>
     </div>
 
     <div class="workspace">
-        <div class="bg-logo" id="fondoTexto">
-            SISCOBAJIO<br><span style="font-size: 20px;">SYSTEM</span>
-        </div>
+        <div class="bg-logo" id="fondoTexto">SISCOBAJIO<br><span style="font-size: 20px;">SYSTEM</span></div>
 
         <div id="winTotalizador" class="window" style="width: 720px; height: 500px; top: 20px; left: 50px;">
             <div class="title-bar">Totalizador <span class="btn-close" onclick="cerrarVentana('winTotalizador')">X</span></div>
@@ -205,10 +199,7 @@
                             <label><input type="radio" name="op" checked> Recargue</label>
                             <label><input type="radio" name="op"> Venta</label>
                         </fieldset>
-                        <div style="flex:1;">
-                            <label>Cliente</label>
-                            <select class="full-width"><option>Seleccione...</option></select>
-                        </div>
+                        <div style="flex:1;"><label>Cliente</label><select class="full-width"><option>Seleccione...</option></select></div>
                     </div>
                 </div>
                 <div class="panel">
@@ -228,9 +219,7 @@
                 </div>
                 <div class="panel-inset" style="height: 150px;">
                     <table width="100%" style="font-size:10px; border-collapse:collapse;">
-                        <thead style="background:#ffcc99;">
-                            <tr><th>Artículo</th><th>Descripción</th><th>Precio</th><th>Total</th></tr>
-                        </thead>
+                        <thead style="background:#ffcc99;"><tr><th>Artículo</th><th>Descripción</th><th>Precio</th><th>Total</th></tr></thead>
                         <tbody id="gridVentas"></tbody>
                     </table>
                 </div>
@@ -351,7 +340,6 @@
     </div>
 
 <script>
-    /* LÓGICA */
     let zIndex = 100;
     function abrirVentana(id) {
         const win = document.getElementById(id);
@@ -359,7 +347,6 @@
         win.style.zIndex = ++zIndex;
     }
     function cerrarVentana(id) { document.getElementById(id).style.display = 'none'; }
-
     function verTab(tabId, btn) {
         const container = btn.closest('.tab-container');
         container.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -367,50 +354,36 @@
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
     }
-
     function guardarOpciones() {
         const nombre = document.getElementById('confEmpresa').value;
         document.getElementById('fondoTexto').innerHTML = nombre + "<br><span style='font-size:20px'>SYSTEM</span>";
         cerrarVentana('winOpciones');
     }
-    
     function agregarVenta() {
         document.getElementById('gridVentas').innerHTML += "<tr><td>99</td><td>Prod. Prueba</td><td>$100</td><td>$100</td></tr>";
     }
-
-    // NUEVA FUNCIÓN DEL BUSCADOR
     function buscarToolbar() {
         const texto = document.getElementById('toolbarSearch').value;
         if(texto.trim() === "") return alert("Ingrese un número de serie o nombre.");
-        
         abrirVentana('winListaOS');
         document.getElementById('inputBuscarOS').value = texto;
-        alert("Buscando: " + texto + "...");
     }
-
     setInterval(() => {
         const d = new Date();
         document.getElementById('reloj').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }, 1000);
 
-    // Arrastrar ventanas (PC)
+    // Mover Ventanas (PC)
     document.querySelectorAll('.title-bar').forEach(bar => {
         bar.addEventListener('mousedown', function(e) {
             if(window.innerWidth <= 768) return; 
-            const win = bar.parentElement;
-            win.style.zIndex = ++zIndex;
+            const win = bar.parentElement; win.style.zIndex = ++zIndex;
             let shiftX = e.clientX - win.getBoundingClientRect().left;
             let shiftY = e.clientY - win.getBoundingClientRect().top;
-            function moveAt(pageX, pageY) {
-                win.style.left = pageX - shiftX + 'px';
-                win.style.top = pageY - shiftY + 'px';
-            }
+            function moveAt(pageX, pageY) { win.style.left = pageX - shiftX + 'px'; win.style.top = pageY - shiftY + 'px'; }
             function onMouseMove(event) { moveAt(event.pageX, event.pageY); }
             document.addEventListener('mousemove', onMouseMove);
-            bar.onmouseup = function() {
-                document.removeEventListener('mousemove', onMouseMove);
-                bar.onmouseup = null;
-            };
+            bar.onmouseup = function() { document.removeEventListener('mousemove', onMouseMove); bar.onmouseup = null; };
         });
     });
 </script>
