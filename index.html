@@ -19,18 +19,22 @@
         /* --- MENÚ Y TOOLBAR --- */
         .top-menu { background: #f0f0f0; padding: 2px 10px; border-bottom: 1px solid #d0d0d0; display: flex; gap: 15px; color: #000; }
         .menu-item { cursor: pointer; } .menu-item:hover { background-color: #316ac5; color: white; }
-        .toolbar { background: #ffffff; border-bottom: 1px solid #888; padding: 5px 10px; display: flex; align-items: center; justify-content: space-between; height: 65px; flex-shrink: 0; }
+        
+        .toolbar { background: #ffffff; border-bottom: 1px solid #888; padding: 5px 10px; display: flex; align-items: center; height: 65px; flex-shrink: 0; gap: 10px; }
+        
         .tools-left { display: flex; align-items: center; gap: 2px; }
         .tool-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 75px; height: 60px; border: 1px solid transparent; cursor: pointer; border-radius: 3px; color: #000; }
         .tool-btn:hover { border: 1px solid #aaa; background: #e0e0e0; box-shadow: inset 0 0 3px white; }
         .tool-icon { font-size: 32px; margin-bottom: 3px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
         .tool-text { font-size: 10px; font-weight: bold; color: #333; font-family: Tahoma, sans-serif; }
         .separator { width: 1px; height: 40px; background: #ccc; margin: 0 5px; border-right: 1px solid #fff; }
-        .search-container { border: 1px solid #ccc; border-radius: 4px; padding: 3px; background: #f9f9f9; display: flex; flex-direction: column; align-items: flex-start; margin-right: 10px; }
+        
+        .search-container { border: 1px solid #ccc; border-radius: 4px; padding: 3px; background: #f9f9f9; display: flex; flex-direction: column; align-items: flex-start; margin-left: 10px; }
         .search-label { font-size: 10px; color: #333; margin-bottom: 2px; margin-left: 2px; }
         .search-box { display: flex; gap: 0; }
-        .search-input { width: 100px; border: 1px solid #7f9db9; font-size: 12px; padding: 2px; outline: none; }
-        .search-btn { border: 1px solid #7f9db9; border-left: none; background: #e0e0e0; cursor: pointer; font-weight: bold; width: 25px; } .search-btn:active { background: #ccc; }
+        
+        .search-input { width: 100px; border: 1px solid #7f9db9; font-size: 12px; padding: 2px; outline: none; height: 8mm; }
+        .search-btn { border: 1px solid #7f9db9; border-left: none; background: #e0e0e0; cursor: pointer; font-weight: bold; width: 25px; height: 8mm; } .search-btn:active { background: #ccc; }
 
         /* --- VENTANAS --- */
         .window { position: absolute; background: var(--win-bg); border: 2px solid #fff; border-right-color: #444; border-bottom-color: #444; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; width: 700px; max-height: 95vh; touch-action: none; border-radius: 4px; outline: 1px solid #000080; }
@@ -44,15 +48,16 @@
         
         .os-row { display: flex; gap: 5px; align-items: center; }
         .os-label { font-size: 10px; color: #444; }
-        .os-input { border: 1px solid #7f9db9; height: 20px; font-size: 11px; padding: 0 3px; box-sizing: border-box; }
+        .os-input { border: 1px solid #7f9db9; height: 8mm; font-size: 12px; padding: 0 4px; box-sizing: border-box; }
         .os-input[readonly] { background: #eee; color: #555; }
-        .os-btn { background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; font-size: 11px; padding: 2px 8px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
+        .os-btn { background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; font-size: 11px; padding: 0 8px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); height: 8mm; display:flex; align-items:center; justify-content:center; }
         .os-btn:active { transform: translateY(1px); }
 
         /* Tabs */
-        .os-tabs { display: flex; gap: 2px; margin-bottom: 2px; }
-        .os-tab { flex: 1; text-align: center; padding: 4px; background: #d4d0c8; border: 1px solid #fff; border-bottom: 1px solid #7f9db9; cursor: pointer; font-weight: bold; color: #555; }
-        .os-tab.active { background: #f0f0f0; border: 1px solid #7f9db9; border-bottom: none; color: #000; position: relative; top: 1px; z-index: 10; }
+        .os-tabs { display: flex; gap: 5px; margin-bottom: 5px; border-bottom: 1px solid #999; padding-bottom: 5px; }
+        .os-tab { text-align: center; padding: 3px 15px; background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; color: #333; font-size: 11px; border-radius: 2px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
+        .os-tab:hover { background: #f0f0f0; }
+        .os-tab.active { background: #fff; border: 1px solid #000080; color: #000; font-weight: bold; }
 
         .tab-content { border: 1px solid #7f9db9; background: #f0f0f0; padding: 8px; flex: 1; display: none; flex-direction: column; gap: 5px; }
         .tab-content.active { display: flex; }
@@ -62,18 +67,37 @@
         .data-grid th { background: #e0e0e0; border-bottom: 1px solid #999; padding: 2px; text-align: left; font-weight: normal; border-right: 1px solid #ccc; white-space: nowrap; overflow: hidden; }
         .data-grid td { padding: 2px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .data-grid tr:hover { background: #ffffcc; }
-        .grid-wrapper { border: 1px solid #999; background: #fff; overflow-y: auto; height: 100px; }
+        
+        .data-grid tr.selected-row { background-color: #000080; color: white; }
+        .data-grid tr.selected-row td { color: white; border-right: 1px solid #999; }
 
-        /* Leer o Cerrar Toolbar */
+        .grid-wrapper { border: 1px solid #999; background: #fff; overflow-y: auto; height: 100px; }
+        
+        .products-wrapper {
+            border: 1px solid #999; 
+            background: #fff; 
+            overflow-y: scroll; 
+            margin-top: 5px;
+            height: 125px; 
+            min-height: 125px; 
+            max-height: 125px;
+            flex: 0 0 125px; 
+        }
+
         .list-toolbar { display: flex; gap: 5px; align-items: center; padding: 5px; background: #d4d0c8; border-bottom: 1px solid #999; }
 
-        /* Estilos generales formulario clientes */
         .client-form { display: flex; flex-direction: column; gap: 6px; }
         .frm-row { display: flex; gap: 5px; width: 100%; align-items: flex-end; }
         .frm-col { display: flex; flex-direction: column; gap: 1px; }
-        .frm-input, .frm-select { border: 1px solid #7f9db9; padding: 2px 4px; font-size: 11px; height: 22px; width: 100%; box-sizing: border-box; background: #fff; }
+        .frm-input, .frm-select { border: 1px solid #7f9db9; padding: 2px 4px; font-size: 12px; height: 8mm; width: 100%; box-sizing: border-box; background: #fff; }
+        .frm-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .bottom-actions { display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-top: 5px; padding-top: 5px; border-top: 1px solid #ccc; }
+        .big-btn-group { display: flex; gap: 5px; }
+        .big-btn { display: flex; flex-direction: column; align-items: center; padding: 4px 8px; border: 1px solid #7f9db9; background: #e0e0e0; cursor: pointer; border-radius: 3px; min-width: 60px; }
+        .big-btn:hover { background: #d0d0d0; }
+        .frm-textarea { border: 1px solid #7f9db9; font-family: sans-serif; font-size: 11px; height: 50px; resize: none; width: 100%; box-sizing: border-box; }
+        .frm-label { font-size: 10px; color: #444; }
 
-        /* Gráficos */
         .chart-container { background: #fff; border: 1px solid #888; box-shadow: inset 1px 1px 3px #ccc; padding: 10px; flex: 1; min-height: 300px; position: relative;}
         .chart-controls { border: 1px solid #aaa; border-radius: 4px; padding: 5px; background: #e0e0e0; margin-top: 5px; display: flex; align-items: center; gap: 10px; }
         .chart-fieldset { border: 1px solid #999; padding: 3px 8px; border-radius: 3px; display: flex; gap: 10px; align-items: center; }
@@ -98,13 +122,14 @@
             <div class="separator"></div>
             <div class="tool-btn" onclick="alert('Backup')"><span class="tool-icon">💾</span><span class="tool-text">BACKUP</span></div>
             <div class="tool-btn" onclick="alert('Opciones')"><span class="tool-icon">🛠️</span><span class="tool-text">OPCIONES</span></div>
-            <div class="tool-btn" onclick="location.reload()"><span class="tool-icon" style="color:red;">🔴</span><span class="tool-text">SALIR</span></div>
-        </div>
-        <div class="search-container">
-            <span class="search-label">Buscar Serie</span>
-            <div class="search-box">
-                <input type="text" class="search-input">
-                <button class="search-btn">></button>
+            <div class="tool-btn" onclick="salirDelSistema()"><span class="tool-icon" style="color:red;">🔴</span><span class="tool-text">SALIR</span></div>
+            
+            <div class="search-container">
+                <span class="search-label">Buscar Serie</span>
+                <div class="search-box">
+                    <input type="text" class="search-input">
+                    <button class="search-btn">></button>
+                </div>
             </div>
         </div>
     </div>
@@ -113,11 +138,11 @@
         <h1 style="font-size: 100px; margin:0;">SIS</h1>
     </div>
 
-    <div id="winOS" class="window" style="top:40px; left:40px; width: 780px; height: 500px;">
+    <div id="winOS" class="window" style="top:40px; left:40px; width: 780px; height: 600px;">
         <div class="title-bar"><span>Orden de Servicio</span><span class="btn-close" onclick="cerrarVentana('winOS')">✕</span></div>
         <div class="win-body">
             
-            <div style="border:1px solid #7f9db9; background:#fff; height: 110px; overflow-y:scroll; margin-bottom: 5px;">
+            <div style="border:1px solid #7f9db9; background:#fff; height: 130px; overflow-y:scroll; margin-bottom: 5px;">
                 <table class="data-grid">
                     <thead>
                         <tr>
@@ -147,9 +172,9 @@
             </fieldset>
 
             <div class="os-tabs">
-                <div class="os-tab active" onclick="cambiarTabOS('abrir')" id="tabAbrir">Entregas<br><span style="font-size:9px; font-weight:normal;">Abrir O.S.</span></div>
-                <div class="os-tab" onclick="cambiarTabOS('leer')" id="tabLeer">Razones para la Apertura<br><span style="font-size:9px; font-weight:normal;">Leer o Cerrar</span></div>
-                <div class="os-tab" onclick="alert('Confirmar Pago')">Pagos<br><span style="font-size:9px; font-weight:normal;">Confirmar el pago</span></div>
+                <div class="os-tab active" onclick="cambiarTabOS('abrir')" id="tabAbrir">Abrir O.S.</div>
+                <div class="os-tab" onclick="cambiarTabOS('leer')" id="tabLeer">Razones / Leer</div>
+                <div class="os-tab" onclick="alert('Confirmar Pago')">Pagos</div>
             </div>
 
             <div id="contentAbrir" class="tab-content active">
@@ -166,16 +191,25 @@
                             <select id="osProdItem" class="os-input" style="width:100%;" onchange="actualizarPrecioOS()">
                                 <option value="">- Seleccione -</option>
                             </select>
-                            <div class="os-row">
-                                <div style="width: 40px;"><label class="os-label">CTD</label><input type="number" id="osCtd" class="os-input" value="1" style="width: 100%;"></div>
-                                <div style="flex: 1;"><label class="os-label">Chasis / Serie</label><input type="text" id="osSerie" class="os-input" style="width: 100%;"></div>
-                                <div style="width: 70px;"><label class="os-label">Valor ($)</label><input type="text" id="osValor" class="os-input" style="width: 100%;"></div>
+                            
+                            <div class="os-row" style="align-items: flex-end;">
+                                <div style="width: 40px;">
+                                    <label class="os-label">CTD</label>
+                                    <input type="number" id="osCtd" class="os-input" value="1" style="width: 100%;">
+                                </div>
+                                <div style="flex: 1;">
+                                    <label class="os-label">Chasis / Serie</label>
+                                    <input type="text" id="osSerie" class="os-input" style="width: 100%;">
+                                </div>
+                                <div style="width: 70px;">
+                                    <label class="os-label">Valor ($)</label>
+                                    <input type="text" id="osValor" class="os-input" style="width: 100%;">
+                                </div>
+                                <button class="os-btn" style="width: 30px; font-weight:bold; height: 8mm;" onclick="agregarProductoOS()" title="Agregar">+</button>
+                                <button class="os-btn" style="height: 8mm;" onclick="limpiarInputsProducto()">Limpio</button>
                             </div>
-                            <div class="os-row" style="justify-content: flex-end; margin-top: 5px;">
-                                <button class="os-btn" style="width: 40px; font-weight:bold; font-size:14px;" onclick="agregarProductoOS()">+</button>
-                                <button class="os-btn">Limpio</button>
-                            </div>
-                            <div class="grid-wrapper" style="flex:1; margin-top:5px;">
+
+                            <div id="wrapperProductos" class="products-wrapper">
                                 <table class="data-grid">
                                     <thead><tr><th style="width:20px;">Artíc</th><th>Descripción</th><th>Serie</th></tr></thead>
                                     <tbody id="gridProductosAgregados"></tbody>
@@ -183,15 +217,33 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div style="flex: 0.8; display: flex; flex-direction: column; gap: 5px;">
-                        <div style="flex:1;">
-                            <label class="os-label">Observaciones:</label>
-                            <textarea class="os-input" style="height: 80px; width: 100%; resize:none;"></textarea>
-                            <div class="os-row" style="margin-top:5px;"><input type="checkbox" id="chkEntregar"> <label for="chkEntregar" class="os-label">Entregar</label></div>
+                    
+                    <div style="flex: 0.8; display: flex; flex-direction: column; gap: 5px; height: 100%;">
+                        
+                        <div style="flex: 1; display:flex; flex-direction:column; gap:2px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label class="os-label">Observaciones:</label>
+                                <div style="display: flex; align-items: center; gap: 5px; background: #ddd; padding: 0 5px; border-radius: 3px; border:1px solid #aaa;">
+                                    <input type="checkbox" id="chkEntregar" style="margin: 3px 0;"> 
+                                    <label for="chkEntregar" class="os-label" style="font-weight: bold; cursor: pointer;">Entregar</label>
+                                </div>
+                            </div>
+                            <textarea id="osObs" class="os-input" style="flex: 1; width: 100%; resize:none; height:auto; font-family: sans-serif;"></textarea>
                         </div>
-                        <div style="margin-top: auto;">
+
+                        <div style="margin-top: 5px;">
                             <label class="os-label">Previsión de entrega</label>
-                            <div class="os-row"><input type="text" class="os-input" style="flex:1;"><span class="os-label">Vías</span></div>
+                            
+                            <div class="os-row" style="align-items: flex-end;">
+                                <input type="date" id="osFechaEntrega" class="os-input" style="width: 100px;">
+                                <input type="text" class="os-input" style="flex:1;">
+                                
+                                <div style="display: flex; flex-direction: column; align-items: center; margin-left: 5px; gap: 0;">
+                                    <span class="os-label" style="margin-bottom: 2px;">Vías</span>
+                                    <input type="text" class="os-input" value="1" style="width: 40px; text-align:center;">
+                                </div>
+                            </div>
+                            
                             <button class="os-btn" style="width:100%; height: 40px; margin-top: 10px; font-weight:bold;" onclick="generarOS()">ABRIR</button>
                         </div>
                     </div>
@@ -219,13 +271,64 @@
                 </div>
                 <div class="os-row" style="justify-content:space-between; align-items:flex-end;">
                     <div style="background:#000; color:#0f0; padding:5px; font-family:monospace; width:120px;">DEAL: $120.00<br>RESTA: 00.00</div>
-                    <div style="display:flex; gap:5px;"><button class="os-btn" style="height:30px; width:80px;">Imprimir</button><button class="os-btn" style="height:30px; width:80px;">Guardar</button></div>
+                    <div style="display:flex; gap:5px;">
+                        <button class="os-btn" style="height:30px; width:80px;" onclick="if(osSeleccionada) imprimirTicket(osSeleccionada); else alert('Seleccione una OS primero');">Imprimir</button>
+                        <button class="os-btn" style="height:30px; width:80px;">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="winClientes" class="window" style="top:90px; left:50px;"><div class="title-bar"><span>Registro del Cliente</span><span class="btn-close" onclick="cerrarVentana('winClientes')">✕</span></div><div class="win-body" style="background: #e4e4e4;"><div class="client-form"><div class="frm-header"><span style="font-size:12px; font-weight:bold;">Datos del Cliente</span><div class="frm-radios"><label style="cursor:pointer;"><input type="radio" name="modo" value="nuevo" checked onchange="cambiarModo('nuevo')"> Nuevo Registro</label><label style="cursor:pointer;"><input type="radio" name="modo" value="cambiar" onchange="cambiarModo('cambiar')"> Cambiar</label></div></div><div class="frm-row"><div class="frm-col" style="width: 80px;"><span class="frm-label">Código</span><input type="text" id="cliCodigo" class="frm-input" value="AUTO" disabled></div><div class="frm-col" style="width: 90%;"><span class="frm-label">Nombre del Cliente</span><div style="display: flex; gap: 5px;"><input type="text" id="cliNombre" class="frm-input" style="flex: 1.5;" placeholder="Nombre del cliente..."><input type="text" id="cliBusqueda" class="frm-input" style="flex: 1;" list="listaClientes" placeholder="🔍 Buscar aquí..." oninput="detectarCliente()" disabled><datalist id="listaClientes"></datalist></div></div></div><div class="frm-row"><div class="frm-col" style="flex: 1.5;"><span class="frm-label">Dirección</span><input type="text" id="cliDireccion" class="frm-input"></div><div class="frm-col" style="flex: 1;"><span class="frm-label">Colonia</span><input type="text" id="cliColonia" class="frm-input"></div></div><div class="frm-row"><div class="frm-col" style="flex: 1;"><span class="frm-label">Ciudad</span><input type="text" id="cliCiudad" class="frm-input"></div><div class="frm-col" style="flex: 1;"><span class="frm-label">Estado</span><input type="text" id="cliEstado" class="frm-input"></div><div class="frm-col" style="flex: 1.5;"><span class="frm-label">Nombre del Contacto</span><input type="text" id="cliContacto" class="frm-input"></div></div><div class="frm-row" style="margin-top: 5px; border: 1px dotted #999; padding: 3px;"><div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 1</span><input type="text" id="cliTel1" class="frm-input"></div><div class="frm-col" style="flex: 0.5;"><span class="frm-label">C.P.</span><input type="text" id="cliCP" class="frm-input" style="text-align: center;"></div><div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 2</span><input type="text" id="cliTel2" class="frm-input"></div></div><div class="frm-row"><div class="frm-col" style="flex: 1;"><span class="frm-label">Correo Electronico</span><input type="text" id="cliEmail" class="frm-input"></div></div><div class="frm-col"><span class="frm-label">Observaciones</span><textarea id="cliObs" class="frm-textarea"></textarea></div><div class="bottom-actions"><div class="frm-col"><span class="frm-label">Fecha de registro</span><input type="date" class="frm-input" value="2025-01-27" style="width: 120px;"></div><div class="big-btn-group"><button class="big-btn" onclick="alert('Datos Guardados')"><span class="icon">💾</span><span style="font-size:10px;">Guardar</span></button><button class="big-btn" onclick="alert('Registro Eliminado')"><span class="icon">🗑️</span><span style="font-size:10px;">Eliminar</span></button><button class="big-btn" onclick="limpiarFormulario()"><span class="icon">🧹</span><span style="font-size:10px;">Borrar</span></button><button class="big-btn" onclick="cerrarVentana('winClientes')"><span class="icon" style="color:red;">⭕</span><span style="font-size:10px;">Cancelar</span></button></div></div></div></div></div>
+    <div id="winClientes" class="window" style="top:90px; left:50px;">
+        <div class="title-bar"><span>Registro del Cliente</span><span class="btn-close" onclick="cerrarVentana('winClientes')">✕</span></div>
+        <div class="win-body" style="background: #e4e4e4;">
+            <div class="client-form">
+                
+                <div class="frm-header">
+                    <span style="font-size:12px; font-weight:bold;">Datos del Cliente</span>
+                    <div class="frm-radios">
+                        <label style="cursor:pointer;"><input type="radio" name="modo" value="nuevo" checked onchange="cambiarModo('nuevo')"> Nuevo Registro</label>
+                        <label style="cursor:pointer;"><input type="radio" name="modo" value="cambiar" onchange="cambiarModo('cambiar')"> Cambiar</label>
+                    </div>
+                </div>
+
+                <div class="frm-row">
+                    <div class="frm-col" style="width: 80px;"><span class="frm-label">Código</span><input type="text" id="cliCodigo" class="frm-input" value="AUTO" disabled></div>
+                    <div class="frm-col" style="width: 90%;"><span class="frm-label">Nombre del Cliente</span><div style="display: flex; gap: 5px;"><input type="text" id="cliNombre" class="frm-input" style="flex: 1.5;" placeholder="Nombre del cliente..."><input type="text" id="cliBusqueda" class="frm-input" style="flex: 1;" list="listaClientes" placeholder="🔍 Buscar aquí..." oninput="detectarCliente()" disabled><datalist id="listaClientes"></datalist></div></div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="flex: 1.5;"><span class="frm-label">Dirección</span><input type="text" id="cliDireccion" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Colonia</span><input type="text" id="cliColonia" class="frm-input"></div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Ciudad</span><input type="text" id="cliCiudad" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Estado</span><input type="text" id="cliEstado" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1.5;"><span class="frm-label">Nombre del Contacto</span><input type="text" id="cliContacto" class="frm-input"></div>
+                </div>
+                <div class="frm-row" style="margin-top: 5px; border: 1px dotted #999; padding: 3px;">
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 1</span><input type="text" id="cliTel1" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 0.5;"><span class="frm-label">C.P.</span><input type="text" id="cliCP" class="frm-input" style="text-align: center;"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 2</span><input type="text" id="cliTel2" class="frm-input"></div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Correo Electronico</span><input type="text" id="cliEmail" class="frm-input"></div>
+                </div>
+                <div class="frm-col"><span class="frm-label">Observaciones</span><textarea id="cliObs" class="frm-textarea"></textarea></div>
+                
+                <div class="bottom-actions">
+                    <div class="frm-col" style="margin-right: auto;"><span class="frm-label">Fecha de registro</span><input type="date" class="frm-input" value="2025-01-27" style="width: 120px;"></div>
+                    <div class="big-btn-group">
+                        <button class="big-btn" onclick="alert('Datos Guardados')"><span class="icon">💾</span><span style="font-size:10px;">Guardar</span></button>
+                        <button class="big-btn" onclick="alert('Registro Eliminado')"><span class="icon">🗑️</span><span style="font-size:10px;">Eliminar</span></button>
+                        <button class="big-btn" onclick="limpiarFormulario()"><span class="icon">🧹</span><span style="font-size:10px;">Borrar</span></button>
+                        <button class="big-btn" onclick="cerrarVentana('winClientes')"><span class="icon" style="color:red;">⭕</span><span style="font-size:10px;">Cancelar</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div id="winGraficos" class="window" style="top:60px; left:60px; width: 750px; height: 500px;"><div class="title-bar"><span>Gráfico de Unidad Financiera</span><span class="btn-close" onclick="cerrarVentana('winGraficos')">✕</span></div><div class="win-body"><div style="text-align:center; margin-bottom: 5px; font-weight:bold; font-size:14px; font-family:'Tahoma';">VENDAS Y RECARGAS ÚLTIMOS 12 MESES</div><div class="chart-container"><canvas id="miGrafico"></canvas></div><div class="chart-controls"><fieldset class="chart-fieldset"><legend class="chart-legend">Opciones</legend><select id="selPeriodo" class="frm-select" style="width: 100px;"><option value="meses">Meses</option><option value="semanas">Semanas</option></select><select id="selTipoGrafico" class="frm-select" style="width: 120px;"><option value="bar">Barras 2D</option><option value="bar3d">Barras 3D (Sim)</option><option value="line">Líneas 2D</option><option value="line3d">Líneas 3D (Sim)</option></select><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer; font-weight:bold;" onclick="actualizarGrafico()">Exponer</button><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer;" onclick="window.print()">Imprimir</button></fieldset></div></div></div>
     <div id="winTotalizador" class="window" style="top:100px; left:100px;"><div class="title-bar"><span>📠 Caja / Totalizador</span><span class="btn-close" onclick="cerrarVentana('winTotalizador')">✕</span></div><div class="win-body"></div></div>
     <div id="winProductos" class="window" style="top:120px; left:140px;"><div class="title-bar"><span>📦 Productos</span><span class="btn-close" onclick="cerrarVentana('winProductos')">✕</span></div><div class="win-body"></div></div>
@@ -234,18 +337,31 @@
     const DB_CLIENTES = [
         { id: 2375, nombre: "EDIFICACIONES JUAN HERNANDEZ", direccion: "Josefa Ortiz de Dominguez #107 - San Miguel", colonia: "Centro", ciudad: "Celaya", estado: "GTO", cp: "38000", contacto: "Juan", tel1: "461-111-2222", tel2: "461-333-4444", email: "juan@mail.com", obs: "Cliente frecuente" },
         { id: 3913, nombre: "ERACLIO JUANDIEGO VAZQUEZ", direccion: "Venezuela #16 - La Luciernaga", colonia: "Alameda", ciudad: "Cortazar", estado: "GTO", cp: "38300", contacto: "Maria", tel1: "411-555-6666", tel2: "", email: "maria@mail.com", obs: "Paga en efectivo" },
-        { id: 2018, nombre: "JARDINES NIÑOS JUAN AMOS CONVENIO", direccion: "Javier Solis #100 - Imperial", colonia: "Zona Ind.", ciudad: "Celaya", estado: "GTO", cp: "38010", contacto: "Lic. Sanchez", tel1: "461-999-8888", tel2: "461-777-1111", email: "compras@empresa.com", obs: "Requiere factura" }
+        { id: 2018, nombre: "JARDINES NIÑOS JUAN AMOS CONVENIO", direccion: "Javier Solis #100 - Imperial", colonia: "Zona Ind.", ciudad: "Celaya", estado: "GTO", cp: "38010", contacto: "Lic. Sanchez", tel1: "461-999-8888", tel2: "461-777-1111", email: "compras@empresa.com", obs: "Requiere factura" },
+        { id: 5012, nombre: "DISTRIBUIDORA DEL BAJIO SA DE CV", direccion: "Av. Tecnologico #450", colonia: "Industrial", ciudad: "Celaya", estado: "GTO", cp: "38020", contacto: "Ing. Perez", tel1: "461-222-3333", tel2: "", email: "perez@bajio.com", obs: "" },
+        { id: 1024, nombre: "CENTRO ESCOLAR MANUEL DOBLADO", direccion: "Madero #33 - Centro", colonia: "Centro", ciudad: "Celaya", estado: "GTO", cp: "38000", contacto: "Directora", tel1: "461-888-9999", tel2: "", email: "escolar@mail.com", obs: "" }
     ];
     const DB_PRODUCTOS = [ { codigo: "104 RCMLT-01045", desc: "104 RCMLT-01045", precio: 390.00 }, { codigo: "101 RCMLT-0101S", desc: "101 RCMLT-0101S", precio: 450.00 }, { codigo: "122 RCH561HL BK", desc: "122 RCH561HL BK", precio: 109.00 } ];
     let itemsOrden = []; 
     let ordenesGeneradas = []; 
+    let osSeleccionada = null; 
 
     window.onload = function() {
         activarArrastre();
         cargarListaDataList(); 
         llenarComboProductos();
         cambiarModo('nuevo');
+        
+        document.getElementById('osFechaEntrega').valueAsDate = new Date();
     };
+    
+    function salirDelSistema() {
+        const confirmar = confirm("¿Está seguro que desea salir?");
+        if(confirmar) {
+            window.close();
+            window.location.href = 'https://www.google.com';
+        }
+    }
 
     /* --- LÓGICA ORDEN DE SERVICIO --- */
     function cambiarTabOS(tab) {
@@ -255,7 +371,6 @@
         else if (tab === 'leer') { document.getElementById('tabLeer').classList.add('active'); document.getElementById('contentLeer').classList.add('active'); actualizarListaOSGlobal(); }
     }
 
-    // MODIFICADO: Ahora el evento keyup viene del campo osCliNombre
     function filtrarClientesOS() {
         const txt = document.getElementById('osCliNombre').value.toLowerCase();
         const grid = document.getElementById('gridClientesOS');
@@ -268,42 +383,278 @@
                 const tr = document.createElement('tr');
                 tr.innerHTML = `<td>${c.id}</td><td>${c.nombre}</td><td>${c.direccion}</td>`;
                 tr.style.cursor = 'pointer';
-                tr.onclick = () => seleccionarClienteOS(c);
+                tr.onclick = () => seleccionarClienteOS(c, tr);
                 grid.appendChild(tr);
             }
         });
     }
 
-    function seleccionarClienteOS(cliente) {
+    function seleccionarClienteOS(cliente, rowElement) {
         document.getElementById('osCliCodigo').value = cliente.id;
         document.getElementById('osCliNombre').value = cliente.nombre;
-        // Limpiamos el grid una vez seleccionado
-        document.getElementById('gridClientesOS').innerHTML = ""; 
+        
+        const filas = document.getElementById('gridClientesOS').getElementsByTagName('tr');
+        for (let i = 0; i < filas.length; i++) {
+            filas[i].classList.remove('selected-row');
+        }
+        
+        if(rowElement) {
+            rowElement.classList.add('selected-row');
+        }
     }
 
     function llenarComboProductos() { const sel = document.getElementById('osProdItem'); DB_PRODUCTOS.forEach(p => { sel.innerHTML += `<option value="${p.codigo}">${p.desc}</option>`; }); }
     function actualizarPrecioOS() { const cod = document.getElementById('osProdItem').value; const prod = DB_PRODUCTOS.find(p => p.codigo === cod); if(prod) { document.getElementById('osValor').value = prod.precio.toFixed(2); } }
+    
+    function limpiarInputsProducto() {
+        document.getElementById('osProdItem').value = "";
+        document.getElementById('osCtd').value = "1";
+        document.getElementById('osSerie').value = "";
+        document.getElementById('osValor').value = "";
+        
+        itemsOrden = [];
+        dibujarGridProductos();
+    }
+
     function agregarProductoOS() {
         const descTipo = document.getElementById('osProdDesc').value; const codProd = document.getElementById('osProdItem').value; const ctd = document.getElementById('osCtd').value; const serie = document.getElementById('osSerie').value; const precio = document.getElementById('osValor').value;
         if(!codProd) return alert("Seleccione un producto");
         itemsOrden.push({ tipo: descTipo, producto: codProd, serie: serie, ctd: ctd, precio: precio });
-        dibujarGridProductos(); document.getElementById('osSerie').value = "";
+        dibujarGridProductos(); 
+        
+        document.getElementById('osProdItem').value = "";
+        document.getElementById('osCtd').value = "1";
+        document.getElementById('osSerie').value = "";
+        document.getElementById('osValor').value = "";
+
+        const wrapper = document.getElementById('wrapperProductos');
+        if(wrapper) {
+            wrapper.scrollTop = wrapper.scrollHeight;
+        }
     }
+    
     function dibujarGridProductos() { const tbody = document.getElementById('gridProductosAgregados'); tbody.innerHTML = ''; itemsOrden.forEach((item, index) => { tbody.innerHTML += `<tr><td>${index + 1}</td><td>${item.tipo} - ${item.producto}</td><td>${item.serie}</td></tr>`; }); }
+    
     function generarOS() {
         if(!document.getElementById('osCliNombre').value) return alert("Seleccione un cliente primero");
         if(itemsOrden.length === 0) return alert("Agregue al menos un producto");
-        const nuevaOS = { num: 20500 + ordenesGeneradas.length + 1, cliente: document.getElementById('osCliNombre').value, fecha: new Date().toLocaleDateString(), items: [...itemsOrden], estado: 'Abierta' };
-        ordenesGeneradas.push(nuevaOS); alert("O.S. #" + nuevaOS.num + " Creada con éxito!");
-        itemsOrden = []; dibujarGridProductos(); document.getElementById('osCliCodigo').value = ""; document.getElementById('osCliNombre').value = ""; 
+        
+        const obs = document.getElementById('osObs').value;
+        const entregaDate = document.getElementById('osFechaEntrega').value;
+
+        const nuevaOS = { 
+            num: 20500 + ordenesGeneradas.length + 1, 
+            cliente: document.getElementById('osCliNombre').value, 
+            fecha: new Date().toLocaleDateString(), 
+            items: [...itemsOrden], 
+            estado: 'Abierta',
+            observaciones: obs,
+            entrega: entregaDate
+        };
+        
+        ordenesGeneradas.push(nuevaOS); 
+        
+        imprimirTicket(nuevaOS);
+
+        itemsOrden = []; dibujarGridProductos(); document.getElementById('osCliCodigo').value = ""; document.getElementById('osCliNombre').value = ""; document.getElementById('osObs').value = "";
         cambiarTabOS('leer');
     }
+
+    // --- FUNCIÓN DE IMPRESIÓN CON DOBLE COPIA (MEDIA CUARTILLA) ---
+    function imprimirTicket(os) {
+        const clientData = DB_CLIENTES.find(c => c.nombre === os.cliente) || { direccion: '', tel1: '', email: '' };
+
+        let itemsHtml = '';
+        let total = 0;
+
+        os.items.forEach((item, index) => {
+            const subtotal = parseFloat(item.precio) * parseInt(item.ctd);
+            total += subtotal;
+            let desc = `${item.tipo} - ${item.producto}`;
+            if(item.serie) desc += ` (${item.serie})`;
+
+            itemsHtml += `
+            <tr>
+                <td style="text-align:center;">${index + 1}</td>
+                <td>${desc}</td>
+                <td style="text-align:right;">${parseFloat(item.precio).toFixed(2)}</td>
+                <td style="text-align:center;">${item.ctd}</td>
+                <td style="text-align:right;">${subtotal.toFixed(2)}</td>
+            </tr>`;
+        });
+
+        // PLANTILLA UNICA DE TICKET
+        const ticketTemplate = `
+            <div class="ticket-half">
+                <div class="header-top">APERTURA DE LA ORDEN DE SERVICIO</div>
+                <div class="main-title">SISCOBAJIO CORTAZAR TONER Y TINTAS</div>
+                
+                <div class="header-container">
+                    <div class="logo-box"><div class="logo-text">SISCOBAJIO</div></div>
+                    <div class="info-box">
+                        <div style="border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 3px;">
+                            Dir.: Guillermo Prieto No.405-1 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Tel.: 411.155.0596
+                        </div>
+                        <div class="info-row">
+                            <div style="font-weight:bold;">Cliente: ${os.cliente}</div>
+                            <div>Dir.: ${clientData.direccion || ''}</div>
+                        </div>
+                        <div class="info-row">
+                            <div>Email: ${clientData.email || ''}</div>
+                            <div>Fecha: ${os.fecha} &nbsp;&nbsp; Retirar: ${os.entrega}</div>
+                            <div style="font-weight:bold;">O.S.: ${os.num}</div>
+                        </div>
+                        <div class="info-row">
+                            <div></div>
+                            <div>Tel.: ${clientData.tel1 || ''}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30px; text-align:center;">ART.</th>
+                                <th>DESCRIPCIÓN</th>
+                                <th style="width: 80px; text-align:right;">VALOR UN.</th>
+                                <th style="width: 40px; text-align:center;">X CTD</th>
+                                <th style="width: 80px; text-align:right;">SUBTOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsHtml}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <div class="total-box">TOTAL * &nbsp;&nbsp; $ ${total.toFixed(2)}</div>
+
+                    <div class="obs-container">
+                        <strong>Observaciones:</strong> ${os.observaciones || 'NINGUNA'}
+                    </div>
+
+                    <div class="footer-disclaimer">Declaro estar al tanto de la información</div>
+                    <div class="footer-sign">Firma del Cliente</div>
+                </div>
+            </div>
+        `;
+
+        const printWin = window.open('', '', 'width=800,height=900');
+        printWin.document.write(`
+            <html>
+            <head>
+                <title>O.S. #${os.num}</title>
+                <style>
+                    body { font-family: 'Arial', sans-serif; font-size: 11px; margin: 0; padding: 0; box-sizing: border-box; height: 100vh; overflow: hidden; }
+                    
+                    @media print {
+                        @page { size: letter; margin: 0.5cm; }
+                        body { margin: 0; }
+                    }
+
+                    /* Contenedor de media cuartilla (aprox 48% para dar espacio al corte) */
+                    .ticket-half {
+                        height: 48vh;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        padding: 10px;
+                        box-sizing: border-box;
+                        border: 1px dotted #eee; /* Guía visual sutil */
+                    }
+
+                    .cut-line {
+                        height: 2vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #666;
+                        font-size: 10px;
+                        overflow: hidden;
+                    }
+                    .cut-dashed {
+                        width: 100%;
+                        border-top: 1px dashed #666;
+                        margin: 0 10px;
+                    }
+
+                    .header-top { text-align: center; color: #666; font-size: 9px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
+                    .main-title { text-align: center; font-size: 14px; font-weight: bold; color: #333; margin: 2px 0 10px 0; }
+                    
+                    .header-container { display: flex; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 5px; }
+                    
+                    .logo-box {
+                        width: 80px; height: 60px; 
+                        border: 1px solid #999; border-radius: 6px; 
+                        display: flex; align-items: center; justify-content: center;
+                        margin-right: 15px; flex-shrink: 0;
+                    }
+                    .logo-text { transform: rotate(-90deg); font-weight: bold; color: #aaa; font-size: 12px; }
+                    
+                    .info-box { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 2px; font-size: 10px; }
+                    .info-row { display: flex; justify-content: space-between; }
+                    
+                    table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+                    th { border: 1px solid #000; background: #eee; padding: 3px; font-size: 9px; font-weight: bold; text-align: left; }
+                    td { border: 1px solid #000; padding: 3px; font-size: 10px; vertical-align: middle; }
+                    
+                    .total-box { text-align: right; font-weight: bold; font-size: 12px; margin-top: 5px; padding-right: 5px; }
+                    .obs-container { margin-top: 5px; font-size: 10px; font-style: italic; border: 1px dotted #ccc; padding: 3px; }
+                    
+                    .footer-disclaimer { margin-top: 15px; text-align: right; font-size: 9px; color: #444; margin-bottom: 15px; }
+                    .footer-sign { border-top: 1px solid #000; width: 200px; text-align: center; margin-left: auto; padding-top: 2px; font-weight: bold; font-size: 10px; }
+                </style>
+            </head>
+            <body>
+                ${ticketTemplate}
+
+                <div class="cut-line">
+                    <div class="cut-dashed"></div>
+                    <span>✂ CORTAR AQUÍ</span>
+                    <div class="cut-dashed"></div>
+                </div>
+
+                ${ticketTemplate}
+            </body>
+            </html>
+        `);
+        
+        printWin.document.close();
+        printWin.focus();
+        setTimeout(() => {
+            printWin.print();
+            printWin.close();
+        }, 500);
+    }
+
     function actualizarListaOSGlobal() {
         const tbody = document.getElementById('listaOSGlobal'); tbody.innerHTML = '';
-        if(ordenesGeneradas.length === 0) { tbody.innerHTML += `<tr><td>20503</td><td>Descripción Recarga de Cartucho...</td><td>Abierta</td></tr>`; tbody.innerHTML += `<tr><td>21030</td><td>Descripción Recarga de Cartucho...</td><td>Abierta</td></tr>`; }
-        ordenesGeneradas.forEach(os => { const tr = document.createElement('tr'); tr.innerHTML = `<td>${os.num}</td><td>O.S. de ${os.cliente}</td><td>${os.estado}</td>`; tr.onclick = () => verDetalleOS(os); tr.style.cursor = 'pointer'; tbody.appendChild(tr); });
+        if(ordenesGeneradas.length === 0) { tbody.innerHTML += `<tr><td>20503</td><td>Descripción Recarga de Cartucho...</td><td>Abierta</td></tr>`; }
+        ordenesGeneradas.forEach(os => { 
+            const tr = document.createElement('tr'); 
+            tr.innerHTML = `<td>${os.num}</td><td>O.S. de ${os.cliente}</td><td>${os.estado}</td>`; 
+            
+            tr.onclick = () => {
+                verDetalleOS(os);
+                Array.from(tbody.children).forEach(row => row.classList.remove('selected-row'));
+                tr.classList.add('selected-row');
+            }; 
+            tr.style.cursor = 'pointer'; 
+            tbody.appendChild(tr); 
+        });
     }
-    function verDetalleOS(os) { const tbody = document.getElementById('detalleOSSeleccionada'); tbody.innerHTML = ''; os.items.forEach((item, idx) => { const subtotal = (item.ctd * item.precio).toFixed(2); tbody.innerHTML += `<tr><td>${idx + 1}</td><td>${item.tipo}</td><td>${item.producto}</td><td>${item.serie}</td><td>${item.precio}</td><td>${item.ctd}</td><td>${subtotal}</td></tr>`; }); }
+    
+    function verDetalleOS(os) { 
+        osSeleccionada = os; 
+        const tbody = document.getElementById('detalleOSSeleccionada'); 
+        tbody.innerHTML = ''; 
+        os.items.forEach((item, idx) => { 
+            const subtotal = (item.ctd * item.precio).toFixed(2); 
+            tbody.innerHTML += `<tr><td>${idx + 1}</td><td>${item.tipo}</td><td>${item.producto}</td><td>${item.serie}</td><td>${item.precio}</td><td>${item.ctd}</td><td>${subtotal}</td></tr>`; 
+        }); 
+    }
 
     /* --- GRÁFICOS --- */
     let chartInstance = null;
