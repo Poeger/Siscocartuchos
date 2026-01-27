@@ -3,389 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Siscobajio System</title>
+    <title>SISCartuchos - Diseño Final</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        /* --- ESTILOS SKIN "AVENGER" --- */
-        :root {
-            --bg-dark: #333;
-            --win-bg: #bfbfbf;
-        }
+        /* --- ESTILOS GENERALES --- */
+        :root { --bg-desktop: #2c3e50; --win-bg: #e0e0e0; --win-header: linear-gradient(to right, #000080, #1084d0); --input-border: #7f9db9; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 12px; background: var(--bg-desktop); overflow: hidden; height: 100vh; display: flex; flex-direction: column; user-select: none; }
 
-        body { 
-            margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; 
-            background: #222; overflow: hidden; height: 100vh; 
-            display: flex; flex-direction: column; user-select: none; 
-        }
-        
-        /* BARRA SUPERIOR */
-        .menu-bar { background: #d4d0c8; padding: 2px 10px; font-size: 11px; border-bottom: 1px solid #fff; display: flex; gap: 15px; flex-shrink: 0; }
-        .menu-item { cursor: pointer; } .menu-item:hover { color: blue; text-decoration: underline; }
+        /* --- MENÚ SUPERIOR --- */
+        .top-menu { background: #f0f0f0; padding: 2px 10px; border-bottom: 1px solid #d0d0d0; display: flex; gap: 15px; font-size: 11px; color: #000; }
+        .menu-item { cursor: pointer; } .menu-item:hover { background-color: #316ac5; color: white; }
 
-        /* TOOLBAR */
+        /* --- TOOLBAR MODIFICADA --- */
         .toolbar { 
-            background: linear-gradient(to bottom, #f0f0f0 0%, #d4d0c8 100%);
-            border-bottom: 1px solid #404040; padding: 5px; 
-            display: flex; gap: 5px; overflow-x: auto; flex-shrink: 0; align-items: center;
-        }
-        
-        .tool-btn {
-            display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
-            min-width: 65px; height: 55px; border: 1px solid transparent; border-radius: 3px; cursor: pointer;
-        }
-        .tool-btn:hover { border: 1px solid #999; background: #fff; box-shadow: inset 0 0 5px #ddd; }
-        .tool-btn:active { box-shadow: inset 2px 2px 5px #bbb; }
-        .tool-icon { font-size: 22px; margin-bottom: 2px; }
-        .tool-text { font-size: 10px; color: #333; font-weight: bold; text-align: center; }
-
-        /* BUSCADOR TOOLBAR */
-        .tool-search-group {
-            display: flex; flex-direction: column; justify-content: center;
-            margin-left: 10px; padding-left: 10px; border-left: 1px solid #999; height: 50px;
-        }
-        .search-row { display: flex; align-items: center; }
-        .toolbar-input {
-            width: 120px; height: 22px; font-size: 11px;
-            border: 2px solid #888; border-right-color: #fff; border-bottom-color: #fff;
-            padding: 2px; background: #fff;
-        }
-        .toolbar-search-btn {
-            width: 25px; height: 22px; margin-left: 2px;
-            background: #d4d0c8; border: 1px solid #fff; border-right-color: #444; border-bottom-color: #444;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;
-        }
-        .toolbar-search-btn:active { border-color: #444 #fff #fff #444; }
-
-        /* AREA DE TRABAJO */
-        .workspace { 
-            flex: 1; position: relative; 
-            background: radial-gradient(circle at center, #666 0%, #000 100%);
-            overflow: hidden;
-        }
-        .bg-logo {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 40px; color: rgba(255,255,255,0.1); font-weight: bold; text-align: center; pointer-events: none;
+            background: #ffffff; 
+            border-bottom: 1px solid #888; 
+            padding: 5px 10px; 
+            display: flex; 
+            align-items: center; 
+            /* CAMBIO: Quitamos space-between para que todo se alinee a la izquierda junto */
+            justify-content: flex-start; 
+            height: 65px; 
+            flex-shrink: 0; 
+            overflow-x: auto;
         }
 
-        /* WINDOWS */
-        .window {
-            position: absolute; background: var(--win-bg); 
-            border: 2px solid #fff; border-right-color: #404040; border-bottom-color: #404040;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.8); display: none;
-            flex-direction: column; outline: 1px solid #888;
+        .tools-left { display: flex; align-items: center; gap: 2px; }
+
+        .tool-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 75px; height: 60px; border: 1px solid transparent; cursor: pointer; border-radius: 3px; color: #000; }
+        .tool-btn:hover { border: 1px solid #aaa; background: #e0e0e0; box-shadow: inset 0 0 3px white; }
+        .tool-icon { font-size: 32px; margin-bottom: 3px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2)); }
+        .tool-text { font-size: 10px; font-weight: bold; color: #333; font-family: Tahoma, sans-serif; }
+        .separator { width: 1px; height: 40px; background: #ccc; margin: 0 5px; border-right: 1px solid #fff; }
+
+        /* --- BUSCADOR (Ajustado) --- */
+        .search-container { 
+            border: 1px solid #ccc; border-radius: 4px; padding: 3px; background: #f9f9f9; 
+            display: flex; flex-direction: column; align-items: flex-start; 
+            /* CAMBIO: Margen a la izquierda para separarlo del separador */
+            margin-left: 5px; 
         }
+        .search-label { font-size: 10px; color: #333; margin-bottom: 2px; margin-left: 2px; }
+        .search-box { display: flex; gap: 0; }
+        .search-input { width: 100px; border: 1px solid #7f9db9; font-size: 12px; padding: 2px; outline: none; }
+        .search-btn { border: 1px solid #7f9db9; border-left: none; background: #e0e0e0; cursor: pointer; font-weight: bold; width: 25px; } .search-btn:active { background: #ccc; }
+
+        /* --- VENTANAS --- */
+        .window { position: absolute; background: var(--win-bg); border: 2px solid #fff; border-right-color: #444; border-bottom-color: #444; box-shadow: 10px 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column; width: 700px; max-height: 95vh; touch-action: none; border-radius: 4px; outline: 1px solid #000080; }
+        .title-bar { background: var(--win-header); color: white; padding: 6px 8px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: move; font-size: 13px; height: 25px; border-bottom: 1px solid #000; }
+        .btn-close { background: #c0392b; color: white; width: 20px; height: 18px; border-radius: 2px; line-height: 16px; text-align: center; border: 1px solid #fff; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .win-body { padding: 8px; flex: 1; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; }
+
+        /* --- GRÁFICOS --- */
+        .chart-container { background: #fff; border: 1px solid #888; box-shadow: inset 1px 1px 3px #ccc; padding: 10px; flex: 1; min-height: 300px; position: relative;}
+        .chart-controls { border: 1px solid #aaa; border-radius: 4px; padding: 5px; background: #e0e0e0; margin-top: 5px; display: flex; align-items: center; gap: 10px; }
+        .chart-fieldset { border: 1px solid #999; padding: 3px 8px; border-radius: 3px; display: flex; gap: 10px; align-items: center; }
+        .chart-legend { font-size: 10px; color: #444; margin-right: 5px; font-weight: bold;}
+
+        /* --- FORMULARIOS --- */
+        .client-form { display: flex; flex-direction: column; gap: 6px; font-family: 'Tahoma', sans-serif; font-size: 11px; }
+        .frm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; color: #444; }
+        .frm-radios { display: flex; gap: 15px; font-size: 11px; font-weight: bold; background: #dcdcdc; padding: 2px 5px; border-radius: 3px; border: 1px solid #aaa;}
+        .frm-row { display: flex; gap: 5px; width: 100%; align-items: flex-end; }
+        .frm-col { display: flex; flex-direction: column; gap: 1px; }
+        .frm-input, .frm-select { border: 1px solid #7f9db9; padding: 2px 4px; font-size: 11px; height: 22px; border-radius: 0; box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; background: #fff; }
+        .frm-input:disabled, .frm-select:disabled { background: #eee; color: #888; }
+        .frm-label { color: #333; font-size: 11px; margin-left: 1px; font-weight: 500;}
+        .frm-textarea { border: 1px solid #7f9db9; resize: none; height: 50px; width: 100%; box-sizing: border-box; font-family: sans-serif; }
+        .bottom-actions { margin-top: 15px; border-top: 1px solid #aaa; padding-top: 10px; display: flex; align-items: flex-end; justify-content: space-between; }
+        .big-btn-group { display: flex; gap: 10px; }
+        .big-btn { width: 70px; height: 60px; background: linear-gradient(to bottom, #f9f9f9, #dcdcdc); border: 1px solid #888; border-radius: 4px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+        .big-btn:active { background: #ccc; transform: translateY(1px); }
+        .big-btn .icon { font-size: 24px; }
+
         @media (max-width: 768px) {
-            .window { width: 100% !important; height: 100% !important; top: 0 !important; left: 0 !important; border: none; }
+            .toolbar { height: auto; flex-wrap: wrap; justify-content: center; }
+            .tools-left { flex-wrap: wrap; justify-content: center; }
+            .separator { display: none; }
+            .search-container { margin-top: 10px; width: 100%; align-items: center; }
+            .window { width: 96% !important; left: 2% !important; top: 10px !important; height: auto !important;}
+            .frm-row { flex-wrap: wrap; }
+            .frm-col, .frm-input, .frm-select { width: 100%; }
+            .bottom-actions { flex-direction: column; align-items: center; justify-content: center; gap: 15px;}
         }
-
-        .title-bar {
-            background: linear-gradient(to bottom, #5a5a5a 0%, #2b2b2b 100%);
-            border-bottom: 1px solid #000; color: white; padding: 4px 6px; font-weight: bold; font-size: 12px;
-            display: flex; justify-content: space-between; align-items: center; cursor: move; text-shadow: 1px 1px 1px #000;
-        }
-        .btn-close { 
-            background: #c0392b; color: white; border: 1px solid #e74c3c;
-            width: 18px; height: 16px; line-height: 14px; text-align: center; font-size: 10px; cursor: pointer;
-        }
-
-        .win-body { padding: 8px; font-size: 11px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; }
-        
-        .panel {
-            border: 1px solid #fff; border-right-color: #888; border-bottom-color: #888;
-            padding: 8px; border-radius: 4px; margin-bottom: 8px;
-            background: linear-gradient(to bottom, #e0e0e0 0%, #cfcfcf 100%);
-        }
-        .panel-inset { border: 2px solid #888; border-right-color: #fff; border-bottom-color: #fff; background: #fff; padding: 5px; overflow: auto; }
-
-        fieldset { border: 1px solid #888; padding: 5px; margin-bottom: 8px; }
-        legend { color: #000; font-weight: bold; margin-left: 5px; font-size: 10px; }
-        
-        .row { display: flex; gap: 5px; margin-bottom: 5px; align-items: center; flex-wrap: wrap; }
-        label { color: #000; white-space: nowrap; }
-        
-        input, select, textarea { 
-            border: 2px solid #888; border-top-color: #444; border-left-color: #444; border-right-color: #fff; border-bottom-color: #fff;
-            padding: 3px; font-family: 'Tahoma'; font-size: 11px; width: 100%; box-sizing: border-box;
-            background: #fff;
-        }
-        
-        .sys-btn {
-            background: linear-gradient(to bottom, #f0f0f0 0%, #c0c0c0 100%);
-            border: 1px solid #fff; border-right-color: #444; border-bottom-color: #444;
-            padding: 4px 12px; font-size: 11px; cursor: pointer; font-weight: bold; color: #000;
-            border-radius: 3px; min-width: 70px; text-align: center;
-        }
-        .sys-btn:active { background: #ccc; border-color: #444 #fff #fff #444; transform: translate(1px, 1px); }
-        .btn-green { background: linear-gradient(to bottom, #90ee90 0%, #32cd32 100%); }
-        .btn-red { background: linear-gradient(to bottom, #ff9999 0%, #ff4444 100%); color: #fff; }
-
-        /* TABS */
-        .tab-container { margin-top: 5px; display: flex; flex-direction: column; flex: 1;}
-        .tab-header { display: flex; padding-left: 2px; }
-        .tab-btn {
-            padding: 4px 15px; background: #b0b0b0; border: 1px solid #fff; border-right-color: #444; border-bottom: none;
-            border-radius: 4px 4px 0 0; margin-right: 1px; cursor: pointer; position: relative; top: 1px; font-size: 11px;
-        }
-        .tab-btn.active { background: #dcdcdc; font-weight: bold; border-top: 2px solid #ff9900; z-index: 2; height: 16px; }
-        .tab-content { 
-            border: 1px solid #fff; border-right-color: #444; border-bottom-color: #444;
-            background: #dcdcdc; padding: 10px; display: none; flex: 1; 
-        }
-        .tab-content.active { display: block; }
-
-        /* FOOTER */
-        .status-bar { background: #d4d0c8; border-top: 1px solid #999; padding: 3px; font-size: 10px; display: flex; justify-content: space-between; flex-shrink: 0;}
-        .full-width { width: 100%; } .spacer { flex: 1; }
     </style>
 </head>
 <body>
 
-    <div class="menu-bar">
-        <div class="menu-item">Archivo</div>
-        <div class="menu-item">Registro</div>
-        <div class="menu-item">Informes</div>
-        <div class="menu-item">Herramientas</div>
-        <div class="menu-item">Ventana</div>
-        <div class="menu-item">Ayuda</div>
+    <div class="top-menu">
+        <span class="menu-item">Archivo</span>
+        <span class="menu-item">Registro</span>
+        <span class="menu-item">Informes</span>
+        <span class="menu-item">Herramientas</span>
+        <span class="menu-item">Ventana</span>
+        <span class="menu-item">Ayuda</span>
     </div>
 
     <div class="toolbar">
-        <div class="tool-btn" onclick="abrirVentana('winTotalizador')">
-            <span class="tool-icon">📠</span><span class="tool-text">TOTALIZADOR</span>
-        </div>
-        <div class="tool-btn" onclick="abrirVentana('winOS')">
-            <span class="tool-icon">📝</span><span class="tool-text">O.S.</span>
-        </div>
-        <div class="tool-btn" onclick="abrirVentana('winClientes')">
-            <span class="tool-icon">👤</span><span class="tool-text">CLIENTES</span>
-        </div>
-        <div class="tool-btn" onclick="abrirVentana('winProductos')">
-            <span class="tool-icon">📦</span><span class="tool-text">PRODUCTOS</span>
-        </div>
-        <div class="tool-btn">
-            <span class="tool-icon">📊</span><span class="tool-text">GRÁFICOS</span>
-        </div>
-        <div class="tool-btn" onclick="abrirVentana('winOpciones')">
-            <span class="tool-icon">🔧</span><span class="tool-text">OPCIONES</span>
-        </div>
-        <div class="tool-btn" onclick="abrirVentana('winBackup')">
-            <span class="tool-icon">💾</span><span class="tool-text">BACKUP</span>
-        </div>
-
-        <div class="tool-search-group">
-            <span style="font-size:9px; color:#555; font-weight:bold; margin-bottom:2px;">Buscar Serie/OS:</span>
-            <div class="search-row">
-                <input type="text" id="toolbarSearch" class="toolbar-input" placeholder="...">
-                <button class="toolbar-search-btn" onclick="buscarToolbar()">➤</button>
+        <div class="tools-left">
+            <div class="tool-btn" onclick="abrirVentana('winTotalizador')"><span class="tool-icon">🗄️</span><span class="tool-text">TOTALIZADOR</span></div>
+            <div class="tool-btn" onclick="abrirVentana('winOS')"><span class="tool-icon">📂</span><span class="tool-text">O.S.</span></div>
+            <div class="separator"></div>
+            <div class="tool-btn" onclick="abrirVentana('winClientes')"><span class="tool-icon">👤</span><span class="tool-text">CLIENTES</span></div>
+            <div class="tool-btn" onclick="abrirVentana('winProductos')"><span class="tool-icon">◼️</span><span class="tool-text">PRODUCTOS</span></div>
+            <div class="tool-btn" onclick="abrirVentana('winGraficos')"><span class="tool-icon">📊</span><span class="tool-text">GRÁFICOS</span></div>
+            <div class="separator"></div>
+            <div class="tool-btn" onclick="alert('Ayuda')"><span class="tool-icon">❓</span><span class="tool-text">AYUDA</span></div>
+            <div class="separator"></div>
+            <div class="tool-btn" onclick="alert('Backup')"><span class="tool-icon">💾</span><span class="tool-text">BACKUP</span></div>
+            <div class="tool-btn" onclick="alert('Opciones')"><span class="tool-icon">🛠️</span><span class="tool-text">OPCIONES</span></div>
+            
+            <div class="tool-btn" onclick="salirDelSistema()">
+                <span class="tool-icon" style="color:red;">🔴</span>
+                <span class="tool-text">SALIR</span>
             </div>
-        </div>
 
-        <div class="spacer"></div>
-        <div class="tool-btn" onclick="window.close()">
-            <span class="tool-icon">🚪</span><span class="tool-text">SALIR</span>
+            <div class="separator"></div>
+            <div class="search-container">
+                <span class="search-label">Buscar Serie</span>
+                <div class="search-box">
+                    <input type="text" class="search-input">
+                    <button class="search-btn">></button>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div class="workspace">
-        <div class="bg-logo" id="fondoTexto">SISCOBAJIO<br><span style="font-size: 20px;">SYSTEM</span></div>
-
-        <div id="winTotalizador" class="window" style="width: 720px; height: 500px; top: 20px; left: 50px;">
-            <div class="title-bar">Totalizador <span class="btn-close" onclick="cerrarVentana('winTotalizador')">X</span></div>
-            <div class="win-body">
-                <div class="panel">
-                    <div class="row">
-                        <button class="sys-btn" style="height: 30px; background: #666; color: white;">Nueva Operación</button>
-                        <fieldset style="display:inline-flex; gap:10px; margin:0;">
-                            <legend>Operación</legend>
-                            <label><input type="radio" name="op" checked> Recargue</label>
-                            <label><input type="radio" name="op"> Venta</label>
-                        </fieldset>
-                        <div style="flex:1;"><label>Cliente</label><select class="full-width"><option>Seleccione...</option></select></div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="row">
-                        <div style="width: 80px;"><label>Código</label><input type="text"></div>
-                        <div style="flex:1;"><label>Producto</label><select></select></div>
-                        <button class="sys-btn">Buscar</button>
-                    </div>
-                    <div class="row">
-                        <div style="width: 100px;"><label>PRECIO</label><input type="text" readonly></div>
-                        <div style="width: 50px;"><label>CTD.</label><input type="number" value="1"></div>
-                        <div style="width: 100px;"><label>SUBTOTAL</label><input type="text" readonly></div>
-                    </div>
-                    <div class="row" style="margin-top:10px;">
-                        <button class="sys-btn btn-green full-width" onclick="agregarVenta()">+ AGREGAR</button>
-                    </div>
-                </div>
-                <div class="panel-inset" style="height: 150px;">
-                    <table width="100%" style="font-size:10px; border-collapse:collapse;">
-                        <thead style="background:#ffcc99;"><tr><th>Artículo</th><th>Descripción</th><th>Precio</th><th>Total</th></tr></thead>
-                        <tbody id="gridVentas"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div id="winOS" class="window" style="width: 700px; height: 520px; top: 30px; left: 80px;">
-            <div class="title-bar">Orden de Servicio <span class="btn-close" onclick="cerrarVentana('winOS')">X</span></div>
-            <div class="win-body">
-                <div class="panel" style="height: 100px;">
-                    <label>Cliente (Buscar):</label>
-                    <div class="row">
-                         <input type="text" placeholder="Escriba para buscar...">
-                         <button class="sys-btn">Registro de Clientes</button>
-                    </div>
-                    <div class="panel-inset" style="height: 40px; background:#666; color:white;">[Sin Cliente Seleccionado]</div>
-                </div>
-                <div class="tab-container">
-                    <div class="tab-header">
-                        <div class="tab-btn active" onclick="verTab('osTab1', this)">Entregas (Abrir O.S.)</div>
-                        <div class="tab-btn" onclick="verTab('osTab3', this)">Leer o Cerrar</div>
-                    </div>
-                    <div id="osTab1" class="tab-content active">
-                        <div class="row">
-                            <label>Producto</label><select class="full-width"><option>Recarga Genérica</option></select>
-                            <button class="sys-btn">+</button>
-                        </div>
-                        <div class="row"><textarea style="height:80px;" placeholder="Observaciones"></textarea></div>
-                    </div>
-                    <div id="osTab3" class="tab-content">
-                         <button class="sys-btn full-width" onclick="abrirVentana('winListaOS')">Ver / Buscar O.S.</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="winListaOS" class="window" style="width: 600px; height: 400px; top: 60px; left: 100px;">
-            <div class="title-bar">Búsqueda de Órdenes <span class="btn-close" onclick="cerrarVentana('winListaOS')">X</span></div>
-            <div class="win-body">
-                <div class="row">
-                    <label>Buscar:</label>
-                    <input type="text" id="inputBuscarOS" class="full-width">
-                    <button class="sys-btn">🔍</button>
-                </div>
-                <div class="panel-inset" style="flex:1; background: white;">
-                    <ul style="list-style:none; padding:0;" id="listaResultados">
-                        <li>O.S. 20903 - Recarga HP 664</li>
-                        <li>O.S. 21330 - Recarga Canon</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="winProductos" class="window" style="width: 600px; height: 450px; top: 40px; left: 120px;">
-            <div class="title-bar">Registro de Productos <span class="btn-close" onclick="cerrarVentana('winProductos')">X</span></div>
-            <div class="win-body">
-                <div class="tab-container">
-                    <div class="tab-header">
-                        <div class="tab-btn active" onclick="verTab('prodTab2', this)">Productos</div>
-                        <div class="tab-btn" onclick="verTab('prodTab3', this)">Existencias</div>
-                    </div>
-                    <div id="prodTab2" class="tab-content active">
-                        <div class="panel">
-                            <label>Modelo</label><input type="text">
-                            <label>Descripción</label><input type="text">
-                        </div>
-                        <div class="panel">
-                            <label>Valor ($)</label>
-                            <div class="row"><input type="number" placeholder="Venta"></div>
-                        </div>
-                    </div>
-                    <div id="prodTab3" class="tab-content">
-                         <label>Stock Actual</label><input type="number" value="0">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="winOpciones" class="window" style="width: 500px; height: 400px; top: 50px; left: 150px;">
-            <div class="title-bar">Opciones <span class="btn-close" onclick="cerrarVentana('winOpciones')">X</span></div>
-            <div class="win-body">
-                <div class="panel">
-                    <label>Nombre Compañía</label>
-                    <input type="text" id="confEmpresa" value="SISCOBAJIO">
-                    <button class="sys-btn" style="margin-top:10px;" onclick="guardarOpciones()">Guardar Cambios</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="winBackup" class="window" style="width: 400px; height: 300px; top: 100px; left: 200px;">
-            <div class="title-bar">Respaldo <span class="btn-close" onclick="cerrarVentana('winBackup')">X</span></div>
-            <div class="win-body">
-                <div class="panel">
-                    <label>Destino:</label>
-                    <div class="panel-inset" style="height:100px;">C:\Backups\Siscobajio</div>
-                </div>
-                <button class="sys-btn" onclick="alert('Backup Realizado')">Iniciar Copia</button>
-            </div>
-        </div>
-        
-        <div id="winClientes" class="window" style="width: 500px; height: 400px; top:60px; left:60px;">
-            <div class="title-bar">Registro Clientes <span class="btn-close" onclick="cerrarVentana('winClientes')">X</span></div>
-            <div class="win-body">
-                <div class="panel">
-                    <label>Nombre</label><input type="text">
-                    <label>Teléfono</label><input type="text">
-                </div>
-                <button class="sys-btn">Guardar</button>
-            </div>
-        </div>
-
+    <div style="position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:rgba(255,255,255,0.1); z-index: -1;">
+        <h1 style="font-size: 100px; margin:0;">SIS</h1>
     </div>
 
-    <div class="status-bar">
-        <span>SISCartuchos - V.9.0</span>
-        <span id="reloj">12:00</span>
-        <span>Operador: Admin</span>
+    <div id="winGraficos" class="window" style="top:60px; left:60px; width: 750px; height: 500px;">
+        <div class="title-bar"><span>Gráfico de Unidad Financiera</span><span class="btn-close" onclick="cerrarVentana('winGraficos')">✕</span></div>
+        <div class="win-body">
+            <div style="text-align:center; margin-bottom: 5px; font-weight:bold; font-size:14px; font-family:'Tahoma';">VENDAS Y RECARGAS ÚLTIMOS 12 MESES</div>
+            <div class="chart-container"><canvas id="miGrafico"></canvas></div>
+            <div class="chart-controls">
+                <fieldset class="chart-fieldset">
+                    <legend class="chart-legend">Opciones</legend>
+                    <select id="selPeriodo" class="frm-select" style="width: 100px;"><option value="meses">Meses</option><option value="semanas">Semanas</option></select>
+                    <select id="selTipoGrafico" class="frm-select" style="width: 120px;"><option value="bar">Barras 2D</option><option value="bar3d">Barras 3D (Sim)</option><option value="line">Líneas 2D</option><option value="line3d">Líneas 3D (Sim)</option></select>
+                    <button class="frm-input" style="width: 80px; background: #eee; cursor:pointer; font-weight:bold;" onclick="actualizarGrafico()">Exponer</button>
+                    <button class="frm-input" style="width: 80px; background: #eee; cursor:pointer;" onclick="window.print()">Imprimir</button>
+                </fieldset>
+            </div>
+        </div>
     </div>
+
+    <div id="winClientes" class="window" style="top:90px; left:50px;">
+        <div class="title-bar"><span>Registro del Cliente</span><span class="btn-close" onclick="cerrarVentana('winClientes')">✕</span></div>
+        <div class="win-body" style="background: #e4e4e4;">
+            <div class="client-form">
+                <div class="frm-header">
+                    <span style="font-size:12px; font-weight:bold;">Datos del Cliente</span>
+                    <div class="frm-radios">
+                        <label style="cursor:pointer;"><input type="radio" name="modo" value="nuevo" checked onchange="cambiarModo('nuevo')"> Nuevo Registro</label>
+                        <label style="cursor:pointer;"><input type="radio" name="modo" value="cambiar" onchange="cambiarModo('cambiar')"> Cambiar</label>
+                    </div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="width: 80px;">
+                        <span class="frm-label">Código</span>
+                        <input type="text" id="cliCodigo" class="frm-input" value="AUTO" disabled>
+                    </div>
+                    <div class="frm-col" style="width: 90%;">
+                        <span class="frm-label">Nombre del Cliente</span>
+                        <div style="display: flex; gap: 5px;">
+                            <input type="text" id="cliNombre" class="frm-input" style="flex: 1.5;" placeholder="Nombre del cliente...">
+                            <input type="text" id="cliBusqueda" class="frm-input" style="flex: 1;" list="listaClientes" placeholder="🔍 Buscar aquí..." oninput="detectarCliente()" disabled>
+                            <datalist id="listaClientes"></datalist>
+                        </div>
+                    </div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="flex: 1.5;"><span class="frm-label">Dirección</span><input type="text" id="cliDireccion" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Colonia</span><input type="text" id="cliColonia" class="frm-input"></div>
+                </div>
+                <div class="frm-row">
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Ciudad</span><input type="text" id="cliCiudad" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Estado</span><input type="text" id="cliEstado" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 1.5;"><span class="frm-label">Nombre del Contacto</span><input type="text" id="cliContacto" class="frm-input"></div>
+                </div>
+                <div class="frm-row" style="margin-top: 5px; border: 1px dotted #999; padding: 3px;">
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 1</span><input type="text" id="cliTel1" class="frm-input"></div>
+                    <div class="frm-col" style="flex: 0.5;"><span class="frm-label">C.P.</span><input type="text" id="cliCP" class="frm-input" style="text-align: center;"></div>
+                    <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 2</span><input type="text" id="cliTel2" class="frm-input"></div>
+                </div>
+                <div class="frm-row"><div class="frm-col" style="flex: 1;"><span class="frm-label">Correo Electronico</span><input type="text" id="cliEmail" class="frm-input"></div></div>
+                <div class="frm-col"><span class="frm-label">Observaciones</span><textarea id="cliObs" class="frm-textarea"></textarea></div>
+                <div class="bottom-actions">
+                    <div class="frm-col"><span class="frm-label">Fecha de registro</span><input type="date" class="frm-input" value="2025-01-27" style="width: 120px;"></div>
+                    <div class="big-btn-group">
+                        <button class="big-btn" onclick="alert('Datos Guardados')"><span class="icon">💾</span><span style="font-size:10px;">Guardar</span></button>
+                        <button class="big-btn" onclick="alert('Registro Eliminado')"><span class="icon">🗑️</span><span style="font-size:10px;">Eliminar</span></button>
+                        <button class="big-btn" onclick="limpiarFormulario()"><span class="icon">🧹</span><span style="font-size:10px;">Borrar</span></button>
+                        <button class="big-btn" onclick="cerrarVentana('winClientes')"><span class="icon" style="color:red;">⭕</span><span style="font-size:10px;">Cancelar</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="winTotalizador" class="window" style="top:100px; left:100px;"><div class="title-bar"><span>📠 Caja / Totalizador</span><span class="btn-close" onclick="cerrarVentana('winTotalizador')">✕</span></div><div class="win-body"></div></div>
+    <div id="winOS" class="window" style="top:110px; left:120px;"><div class="title-bar"><span>📝 Ordenes de Servicio</span><span class="btn-close" onclick="cerrarVentana('winOS')">✕</span></div><div class="win-body"></div></div>
+    <div id="winProductos" class="window" style="top:120px; left:140px;"><div class="title-bar"><span>📦 Productos</span><span class="btn-close" onclick="cerrarVentana('winProductos')">✕</span></div><div class="win-body"></div></div>
 
 <script>
-    let zIndex = 100;
-    function abrirVentana(id) {
-        const win = document.getElementById(id);
-        win.style.display = 'flex';
-        win.style.zIndex = ++zIndex;
+    /* --- FUNCIÓN SALIR --- */
+    function salirDelSistema() {
+        if(confirm("¿Seguro que desea salir del sistema?")) {
+            // Intenta cerrar la ventana
+            window.close();
+            
+            // Si el navegador bloquea window.close() (porque no se abrió con script),
+            // mostramos esto como fallback para simular el cierre.
+            document.body.innerHTML = `
+                <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#000; color:#fff; flex-direction:column;">
+                    <h1>SISTEMA CERRADO</h1>
+                    <p>Puede cerrar esta pestaña del navegador ahora.</p>
+                </div>
+            `;
+        }
     }
-    function cerrarVentana(id) { document.getElementById(id).style.display = 'none'; }
-    function verTab(tabId, btn) {
-        const container = btn.closest('.tab-container');
-        container.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
-    }
-    function guardarOpciones() {
-        const nombre = document.getElementById('confEmpresa').value;
-        document.getElementById('fondoTexto').innerHTML = nombre + "<br><span style='font-size:20px'>SYSTEM</span>";
-        cerrarVentana('winOpciones');
-    }
-    function agregarVenta() {
-        document.getElementById('gridVentas').innerHTML += "<tr><td>99</td><td>Prod. Prueba</td><td>$100</td><td>$100</td></tr>";
-    }
-    function buscarToolbar() {
-        const texto = document.getElementById('toolbarSearch').value;
-        if(texto.trim() === "") return alert("Ingrese un número de serie o nombre.");
-        abrirVentana('winListaOS');
-        document.getElementById('inputBuscarOS').value = texto;
-    }
-    setInterval(() => {
-        const d = new Date();
-        document.getElementById('reloj').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }, 1000);
 
-    // Mover Ventanas (PC)
-    document.querySelectorAll('.title-bar').forEach(bar => {
-        bar.addEventListener('mousedown', function(e) {
-            if(window.innerWidth <= 768) return; 
-            const win = bar.parentElement; win.style.zIndex = ++zIndex;
-            let shiftX = e.clientX - win.getBoundingClientRect().left;
-            let shiftY = e.clientY - win.getBoundingClientRect().top;
-            function moveAt(pageX, pageY) { win.style.left = pageX - shiftX + 'px'; win.style.top = pageY - shiftY + 'px'; }
-            function onMouseMove(event) { moveAt(event.pageX, event.pageY); }
-            document.addEventListener('mousemove', onMouseMove);
-            bar.onmouseup = function() { document.removeEventListener('mousemove', onMouseMove); bar.onmouseup = null; };
+    /* --- LÓGICA GRÁFICOS --- */
+    const DATA_MESES = { labels: ['Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre', 'Enero'], data: [13000, 9500, 12000, 11000, 13500, 8000, 21000, 12000, 14500, 11500, 7800, 12500] };
+    const DATA_SEMANAS = { labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5', 'Sem 6', 'Sem 7', 'Sem 8', 'Sem 9', 'Sem 10', 'Sem 11', 'Sem 12'], data: [4000, 4500, 3200, 1500, 2000, 2500, 4100, 2200, 1800, 3100, 4600, 4400] };
+    let chartInstance = null;
+
+    function actualizarGrafico() {
+        const periodo = document.getElementById('selPeriodo').value;
+        const tipoSelect = document.getElementById('selTipoGrafico').value;
+        let chartType = tipoSelect.includes('line') ? 'line' : 'bar';
+        const dataSet = (periodo === 'meses') ? DATA_MESES : DATA_SEMANAS;
+        const ctx = document.getElementById('miGrafico').getContext('2d');
+        if(chartInstance) chartInstance.destroy();
+        chartInstance = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: dataSet.labels,
+                datasets: [{ label: 'Ventas y Recargas', data: dataSet.data, backgroundColor: 'rgba(255, 0, 0, 1)', borderColor: 'rgba(200, 0, 0, 1)', borderWidth: 2, fill: false, tension: 0.1 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true }, x: { grid: { color: '#999'} } }, plugins: { legend: { display: false } } }
         });
-    });
+    }
+
+    /* --- DATOS GLOBALES --- */
+    const DB_CLIENTES = [
+        { id: 1, nombre: "Juan Perez", direccion: "Av. Siempre Viva 123", colonia: "Centro", ciudad: "Celaya", estado: "GTO", cp: "38000", contacto: "Juan", tel1: "461-111-2222", tel2: "461-333-4444", email: "juan@mail.com", obs: "Cliente frecuente" },
+        { id: 2, nombre: "Maria Caballero", direccion: "Calle Reforma 404", colonia: "Alameda", ciudad: "Cortazar", estado: "GTO", cp: "38300", contacto: "Maria", tel1: "411-555-6666", tel2: "", email: "maria@mail.com", obs: "Paga en efectivo" },
+        { id: 3, nombre: "Empresa SA", direccion: "Parque Industrial", colonia: "Zona Ind.", ciudad: "Celaya", estado: "GTO", cp: "38010", contacto: "Lic. Sanchez", tel1: "461-999-8888", tel2: "461-777-1111", email: "compras@empresa.com", obs: "Requiere factura" },
+        { id: 4, nombre: "Pedro Picapiedra", direccion: "Rocadura 1", colonia: "Cantera", ciudad: "Celaya", estado: "GTO", cp: "38050", contacto: "Pedro", tel1: "461-000-0000", tel2: "", email: "pedro@mail.com", obs: "" }
+    ];
+
+    window.onload = function() { activarArrastre(); cargarListaDataList(); cambiarModo('nuevo'); };
+
+    /* --- FUNCIONES VENTANA --- */
+    let zIndex = 100;
+    function abrirVentana(id) { const win = document.getElementById(id); win.style.display = 'flex'; win.style.zIndex = ++zIndex; if(id === 'winGraficos') setTimeout(actualizarGrafico, 100); }
+    function cerrarVentana(id) { document.getElementById(id).style.display = 'none'; }
+    function activarArrastre() {
+        document.querySelectorAll('.title-bar').forEach(bar => {
+            const win = bar.parentElement; let isDragging = false, startX, startY, initialLeft, initialTop;
+            const startDrag = (e) => { isDragging = true; win.style.zIndex = ++zIndex; const cX = e.touches ? e.touches[0].clientX : e.clientX; const cY = e.touches ? e.touches[0].clientY : e.clientY; startX = cX; startY = cY; const r = win.getBoundingClientRect(); initialLeft = r.left; initialTop = r.top; };
+            const moveDrag = (e) => { if(!isDragging) return; e.preventDefault(); const cX = e.touches ? e.touches[0].clientX : e.clientX; const cY = e.touches ? e.touches[0].clientY : e.clientY; win.style.left = (initialLeft + (cX - startX)) + 'px'; win.style.top = (initialTop + (cY - startY)) + 'px'; };
+            const stopDrag = () => { isDragging = false; };
+            bar.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', moveDrag); document.addEventListener('mouseup', stopDrag);
+            bar.addEventListener('touchstart', startDrag, {passive:false}); document.addEventListener('touchmove', moveDrag, {passive:false}); document.addEventListener('touchend', stopDrag);
+        });
+    }
+
+    /* --- LÓGICA CLIENTES --- */
+    function cargarListaDataList() { const datalist = document.getElementById('listaClientes'); datalist.innerHTML = ''; DB_CLIENTES.forEach(c => { const option = document.createElement('option'); option.value = c.nombre; datalist.appendChild(option); }); }
+    function cambiarModo(modo) { const txtBusqueda = document.getElementById('cliBusqueda'); const txtNombre = document.getElementById('cliNombre'); if(modo === 'nuevo') { limpiarFormulario(); txtBusqueda.disabled = true; txtBusqueda.value = ""; txtBusqueda.placeholder = "Bloqueado (Nuevo)"; txtNombre.disabled = false; txtNombre.focus(); } else if (modo === 'cambiar') { txtBusqueda.disabled = false; txtBusqueda.value = ""; txtBusqueda.placeholder = "🔍 Buscar aquí..."; txtBusqueda.focus(); txtNombre.value = ""; txtNombre.placeholder = "<- Use el buscador"; } }
+    function detectarCliente() { const valorBusqueda = document.getElementById('cliBusqueda').value; const clienteEncontrado = DB_CLIENTES.find(c => c.nombre === valorBusqueda); if(clienteEncontrado) { document.getElementById('cliNombre').value = clienteEncontrado.nombre; document.getElementById('cliDireccion').value = clienteEncontrado.direccion; document.getElementById('cliColonia').value = clienteEncontrado.colonia; document.getElementById('cliCiudad').value = clienteEncontrado.ciudad; document.getElementById('cliEstado').value = clienteEncontrado.estado; document.getElementById('cliContacto').value = clienteEncontrado.contacto; document.getElementById('cliTel1').value = clienteEncontrado.tel1; document.getElementById('cliTel2').value = clienteEncontrado.tel2; document.getElementById('cliCP').value = clienteEncontrado.cp; document.getElementById('cliEmail').value = clienteEncontrado.email; document.getElementById('cliObs').value = clienteEncontrado.obs; } }
+    function limpiarFormulario() { const inputs = document.querySelectorAll('#winClientes input[type="text"], #winClientes textarea'); inputs.forEach(input => { if(input.id !== 'cliCodigo') input.value = ""; }); }
 </script>
 </body>
 </html>
