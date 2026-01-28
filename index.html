@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SISCartuchos - O.S. Grid Invertido</title>
+    <title>SISCartuchos - Sistema Completo</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -53,11 +53,11 @@
         .os-btn { background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; font-size: 11px; padding: 0 8px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); height: 8mm; display:flex; align-items:center; justify-content:center; }
         .os-btn:active { transform: translateY(1px); }
 
-        /* Tabs */
-        .os-tabs { display: flex; gap: 5px; margin-bottom: 5px; border-bottom: 1px solid #999; padding-bottom: 5px; }
-        .os-tab { text-align: center; padding: 3px 15px; background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; color: #333; font-size: 11px; border-radius: 2px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
-        .os-tab:hover { background: #f0f0f0; }
-        .os-tab.active { background: #fff; border: 1px solid #000080; color: #000; font-weight: bold; }
+        /* Tabs Generales */
+        .win-tabs { display: flex; gap: 5px; margin-bottom: 5px; border-bottom: 1px solid #999; padding-bottom: 5px; }
+        .win-tab { text-align: center; padding: 3px 15px; background: #e0e0e0; border: 1px solid #7f9db9; cursor: pointer; color: #333; font-size: 11px; border-radius: 2px; box-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
+        .win-tab:hover { background: #f0f0f0; }
+        .win-tab.active { background: #fff; border: 1px solid #000080; color: #000; font-weight: bold; }
 
         .tab-content { border: 1px solid #7f9db9; background: #f0f0f0; padding: 8px; flex: 1; display: none; flex-direction: column; gap: 5px; }
         .tab-content.active { display: flex; }
@@ -67,22 +67,11 @@
         .data-grid th { background: #e0e0e0; border-bottom: 1px solid #999; padding: 2px; text-align: left; font-weight: normal; border-right: 1px solid #ccc; white-space: nowrap; overflow: hidden; }
         .data-grid td { padding: 2px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .data-grid tr:hover { background: #ffffcc; }
-        
         .data-grid tr.selected-row { background-color: #000080; color: white; }
         .data-grid tr.selected-row td { color: white; border-right: 1px solid #999; }
 
         .grid-wrapper { border: 1px solid #999; background: #fff; overflow-y: auto; height: 100px; }
-        
-        .products-wrapper {
-            border: 1px solid #999; 
-            background: #fff; 
-            overflow-y: scroll; 
-            margin-top: 5px;
-            height: 125px; 
-            min-height: 125px; 
-            max-height: 125px;
-            flex: 0 0 125px; 
-        }
+        .products-wrapper { border: 1px solid #999; background: #fff; overflow-y: scroll; margin-top: 5px; height: 125px; min-height: 125px; max-height: 125px; flex: 0 0 125px; }
 
         .list-toolbar { display: flex; gap: 5px; align-items: center; padding: 5px; background: #d4d0c8; border-bottom: 1px solid #999; }
 
@@ -101,6 +90,9 @@
         .chart-container { background: #fff; border: 1px solid #888; box-shadow: inset 1px 1px 3px #ccc; padding: 10px; flex: 1; min-height: 300px; position: relative;}
         .chart-controls { border: 1px solid #aaa; border-radius: 4px; padding: 5px; background: #e0e0e0; margin-top: 5px; display: flex; align-items: center; gap: 10px; }
         .chart-fieldset { border: 1px solid #999; padding: 3px 8px; border-radius: 3px; display: flex; gap: 10px; align-items: center; }
+
+        .mid-btn { width: 100%; height: 35px; margin-bottom: 5px; border: 1px solid #999; background: #e0e0e0; border-radius: 4px; font-weight: bold; cursor: pointer; box-shadow: 1px 1px 2px #aaa; }
+        .mid-btn:active { transform: translateY(1px); box-shadow: inset 1px 1px 2px #aaa; }
     </style>
 </head>
 <body>
@@ -120,8 +112,8 @@
             <div class="separator"></div>
             <div class="tool-btn" onclick="alert('Ayuda')"><span class="tool-icon">❓</span><span class="tool-text">AYUDA</span></div>
             <div class="separator"></div>
-            <div class="tool-btn" onclick="alert('Backup')"><span class="tool-icon">💾</span><span class="tool-text">BACKUP</span></div>
-            <div class="tool-btn" onclick="alert('Opciones')"><span class="tool-icon">🛠️</span><span class="tool-text">OPCIONES</span></div>
+            <div class="tool-btn" onclick="abrirVentana('winBackup')"><span class="tool-icon">💾</span><span class="tool-text">BACKUP</span></div>
+            <div class="tool-btn" onclick="abrirVentana('winOpciones')"><span class="tool-icon">🛠️</span><span class="tool-text">OPCIONES</span></div>
             <div class="tool-btn" onclick="salirDelSistema()"><span class="tool-icon" style="color:red;">🔴</span><span class="tool-text">SALIR</span></div>
             
             <div class="search-container">
@@ -138,47 +130,39 @@
         <h1 style="font-size: 100px; margin:0;">SIS</h1>
     </div>
 
-    <div id="winOS" class="window" style="top:40px; left:40px; width: 780px; height: 600px;">
+    <div id="winOS" class="window" style="top:80px; left:20px; width: 780px; height: 580px;">
         <div class="title-bar"><span>Orden de Servicio</span><span class="btn-close" onclick="cerrarVentana('winOS')">✕</span></div>
         <div class="win-body">
             
-            <div style="border:1px solid #7f9db9; background:#fff; height: 130px; overflow-y:scroll; margin-bottom: 5px;">
-                <table class="data-grid">
-                    <thead>
-                        <tr>
-                            <th style="width: 50px;">Código</th>
-                            <th style="width: 200px;">Nombre</th>
-                            <th>Dirección</th>
-                        </tr>
-                    </thead>
-                    <tbody id="gridClientesOS">
-                        </tbody>
-                </table>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <div style="border:1px solid #7f9db9; background:#fff; height: 100px; overflow-y:scroll;">
+                    <table class="data-grid">
+                        <thead><tr><th style="width: 50px;">Código</th><th style="width: 200px;">Nombre</th><th>Dirección</th></tr></thead>
+                        <tbody id="gridClientesOS"></tbody>
+                    </table>
+                </div>
+
+                <div style="margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #aaa;">
+                    <div class="os-row" style="margin-bottom: 2px;">
+                        <div style="width: 80px; font-size:10px; color:#444;">Código</div>
+                        <div style="flex:1; font-size:10px; color:#444;">Nombre del Cliente (Escriba para buscar)</div>
+                    </div>
+                    <div class="os-row">
+                        <input type="text" id="osCliCodigo" class="os-input" style="width: 80px; text-align:center; font-weight:bold; height: 6mm;" readonly placeholder="Cod">
+                        <input type="text" id="osCliNombre" class="os-input" style="flex:1; font-weight:bold; height: 6mm;" placeholder="Escriba aquí para buscar en la lista de arriba..." onkeyup="filtrarClientesOS()">
+                        <button class="os-btn" style="height: 6mm;" onclick="abrirVentana('winClientes')">Registro de Clientes</button>
+                    </div>
+                </div>
             </div>
 
-            <fieldset style="background: #fff; margin-bottom: 5px; padding-bottom: 8px;">
-                <legend>Cliente</legend>
-                <div class="os-row" style="margin-bottom: 2px;">
-                    <div style="width: 80px; font-size:10px;">Código</div>
-                    <div style="flex:1; font-size:10px;">Nombre del Cliente (Escriba para buscar)</div>
-                </div>
-                <div class="os-row">
-                    <input type="text" id="osCliCodigo" class="os-input" style="width: 80px; text-align:center; font-weight:bold;" readonly placeholder="Cod">
-                    
-                    <input type="text" id="osCliNombre" class="os-input" style="flex:1; font-weight:bold;" 
-                           placeholder="Escriba aquí para buscar en la lista de arriba..." 
-                           onkeyup="filtrarClientesOS()">
-                </div>
-            </fieldset>
-
-            <div class="os-tabs">
-                <div class="os-tab active" onclick="cambiarTabOS('abrir')" id="tabAbrir">Abrir O.S.</div>
-                <div class="os-tab" onclick="cambiarTabOS('leer')" id="tabLeer">Razones / Leer</div>
-                <div class="os-tab" onclick="alert('Confirmar Pago')">Pagos</div>
+            <div class="win-tabs">
+                <div class="win-tab active" onclick="switchTab('os', 'Abrir')" id="tabosAbrir">Abrir O.S.</div>
+                <div class="win-tab" onclick="switchTab('os', 'Leer')" id="tabosLeer">Leer o Cerrar</div>
+                <div class="win-tab" onclick="alert('Funcionalidad de pagos')">Confirmar el pago</div>
             </div>
 
-            <div id="contentAbrir" class="tab-content active">
-                <div style="display: flex; gap: 10px; height: 100%;">
+            <div id="contentosAbrir" class="tab-content active" style="border:none; padding:0; background:transparent;">
+                <div style="display: flex; gap: 10px; height: 100%; flex:1;">
                     <div style="flex: 1.2; display: flex; flex-direction: column; gap: 5px;">
                         <fieldset style="flex:1; display:flex; flex-direction:column; gap:4px;">
                             <legend>Inserte Productos</legend>
@@ -187,24 +171,15 @@
                                 <option value="Recarga de Cartucho">Recarga de Cartucho</option>
                                 <option value="Mantenimiento">Mantenimiento</option>
                             </select>
-                            <label class="os-label">Producto</label>
-                            <select id="osProdItem" class="os-input" style="width:100%;" onchange="actualizarPrecioOS()">
-                                <option value="">- Seleccione -</option>
-                            </select>
+                            
+                            <label class="os-label">Producto (Escriba para buscar)</label>
+                            <input type="text" id="osProdItem" list="listaProductosOS" class="os-input" style="width:100%;" placeholder="Escriba código o descripción..." oninput="detectarPrecioProducto()">
+                            <datalist id="listaProductosOS"></datalist>
                             
                             <div class="os-row" style="align-items: flex-end;">
-                                <div style="width: 40px;">
-                                    <label class="os-label">CTD</label>
-                                    <input type="number" id="osCtd" class="os-input" value="1" style="width: 100%;">
-                                </div>
-                                <div style="flex: 1;">
-                                    <label class="os-label">Chasis / Serie</label>
-                                    <input type="text" id="osSerie" class="os-input" style="width: 100%;">
-                                </div>
-                                <div style="width: 70px;">
-                                    <label class="os-label">Valor ($)</label>
-                                    <input type="text" id="osValor" class="os-input" style="width: 100%;">
-                                </div>
+                                <div style="width: 40px;"><label class="os-label">CTD</label><input type="number" id="osCtd" class="os-input" value="1" style="width: 100%;"></div>
+                                <div style="flex: 1;"><label class="os-label">Chasis / Serie</label><input type="text" id="osSerie" class="os-input" style="width: 100%;"></div>
+                                <div style="width: 70px;"><label class="os-label">Valor ($)</label><input type="text" id="osValor" class="os-input" style="width: 100%;"></div>
                                 <button class="os-btn" style="width: 30px; font-weight:bold; height: 8mm;" onclick="agregarProductoOS()" title="Agregar">+</button>
                                 <button class="os-btn" style="height: 8mm;" onclick="limpiarInputsProducto()">Limpio</button>
                             </div>
@@ -219,7 +194,6 @@
                     </div>
                     
                     <div style="flex: 0.8; display: flex; flex-direction: column; gap: 5px; height: 100%;">
-                        
                         <div style="flex: 1; display:flex; flex-direction:column; gap:2px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <label class="os-label">Observaciones:</label>
@@ -232,59 +206,270 @@
                         </div>
 
                         <div style="margin-top: 5px;">
-                            <label class="os-label">Previsión de entrega</label>
-                            
+                            <label class="os-label">Previsión de entrega (Fecha y Hora)</label>
                             <div class="os-row" style="align-items: flex-end;">
-                                <input type="date" id="osFechaEntrega" class="os-input" style="width: 100px;">
-                                <input type="text" class="os-input" style="flex:1;">
-                                
+                                <input type="date" id="osFechaEntrega" class="os-input" style="width: 110px;">
+                                <input type="time" id="osHoraEntrega" class="os-input" style="flex:1;">
                                 <div style="display: flex; flex-direction: column; align-items: center; margin-left: 5px; gap: 0;">
                                     <span class="os-label" style="margin-bottom: 2px;">Vías</span>
                                     <input type="text" class="os-input" value="1" style="width: 40px; text-align:center;">
                                 </div>
                             </div>
-                            
-                            <button class="os-btn" style="width:100%; height: 40px; margin-top: 10px; font-weight:bold;" onclick="generarOS()">ABRIR</button>
+                            <button class="os-btn" style="width:100%; height: 40px; margin-top: 10px; font-weight:bold;" onclick="generarOS()">ABRIR ORDEN</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="contentLeer" class="tab-content">
-                <div class="list-toolbar">
-                    <select class="os-input" style="width:150px;"><option>TODOS LOS CLIENTES</option></select>
-                    <label><input type="radio" name="filtroOS" checked> Abiertas</label>
-                    <label><input type="radio" name="filtroOS"> Cerradas</label>
-                    <button class="os-btn">Buscar</button><button class="os-btn">Cesar</button><button class="os-btn">Cerrar todo</button>
-                </div>
-                <div class="grid-wrapper" style="height: 150px;">
-                    <table class="data-grid">
-                        <thead><tr><th>O.S. Num</th><th>Descripción</th><th>Estado</th></tr></thead>
-                        <tbody id="listaOSGlobal"></tbody>
-                    </table>
-                </div>
-                <div class="grid-wrapper" style="flex:1;">
-                    <table class="data-grid">
-                        <thead><tr><th>Artículo</th><th>Descripción</th><th>Producto</th><th>Serie</th><th>Valor Un.</th><th>CTD</th><th>Subtotal</th></tr></thead>
-                        <tbody id="detalleOSSeleccionada"></tbody>
-                    </table>
-                </div>
-                <div class="os-row" style="justify-content:space-between; align-items:flex-end;">
-                    <div style="background:#000; color:#0f0; padding:5px; font-family:monospace; width:120px;">DEAL: $120.00<br>RESTA: 00.00</div>
-                    <div style="display:flex; gap:5px;">
-                        <button class="os-btn" style="height:30px; width:80px;" onclick="if(osSeleccionada) imprimirTicket(osSeleccionada); else alert('Seleccione una OS primero');">Imprimir</button>
-                        <button class="os-btn" style="height:30px; width:80px;">Guardar</button>
-                    </div>
-                </div>
+            <div id="contentosLeer" class="tab-content" style="border:none; padding:20px 0 0 20px; background:transparent; display:none; justify-content: flex-start;">
+                <fieldset style="width: 350px; padding: 20px; background: #fff; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                    <legend>Orden de Servicio</legend>
+                    <button class="mid-btn" onclick="abrirVentana('winListaOS')">Ver, Editar o Cerrar O.S.</button>
+                    <button class="mid-btn" onclick="abrirVentana('winTotalizador')">Llamar totalizador</button>
+                    <div style="margin-top: 10px; font-size: 10px; color: #666;">Haga clic en Ver para ver O.S. en curso</div>
+                </fieldset>
             </div>
         </div>
     </div>
 
-    <div id="winClientes" class="window" style="top:90px; left:50px;">
+    <div id="winListaOS" class="window" style="top:80px; left:50px; width: 780px; height: 550px;">
+        <div class="title-bar"><span>Orden de Servicio - Ordenes Abiertas</span><span class="btn-close" onclick="cerrarVentana('winListaOS')">✕</span></div>
+        <div class="win-body">
+            <div class="list-toolbar">
+                <input type="text" id="filtroClienteHistorial" list="listaClientesHistorial" class="os-input" style="width:200px;" placeholder="Buscar cliente..." oninput="actualizarListaOSGlobal()">
+                <datalist id="listaClientesHistorial"></datalist>
+
+                <label><input type="radio" name="filtroOS" value="abiertas" checked onclick="actualizarListaOSGlobal()"> Abiertas</label>
+                <label><input type="radio" name="filtroOS" value="cerradas" onclick="actualizarListaOSGlobal()"> Cerradas</label>
+                <label><input type="radio" name="filtroOS" value="todas" onclick="actualizarListaOSGlobal()"> Todas</label>
+                
+                <button class="os-btn" onclick="actualizarListaOSGlobal()">Buscar</button>
+                <button class="os-btn" style="font-weight: bold; color: darkred;" onclick="cerrarOSSeleccionada()">Cerrar</button>
+                <button class="os-btn">Cerrar todo</button>
+            </div>
+
+            <div class="grid-wrapper" style="height: 5cm;">
+                <table class="data-grid">
+                    <thead><tr><th style="width: 3cm;">O.S. Num</th><th style="width: 8cm;">Descripción / Producto</th><th style="width: 1.5cm;">Estado</th></tr></thead>
+                    <tbody id="listaOSGlobal"></tbody>
+                </table>
+            </div>
+
+            <div class="grid-wrapper" style="height: 3.5cm; flex:none; margin-top:5px;">
+                <table class="data-grid">
+                    <thead><tr><th style="width:1.4cm; text-align:right;">Art.</th><th style="width:6.5cm; text-align:left;">Descripción</th><th style="width:3.5cm; text-align:right;">Producto</th><th style="width:2.5cm; text-align:left;">Serie</th><th style="width:2.3cm; text-align:left;">Valor Un.</th><th style="width:1cm; text-align:left;">CTD</th><th style="width:1.5cm; text-align:right;">Subtotal</th></tr></thead>
+                    <tbody id="detalleOSSeleccionada"></tbody>
+                </table>
+            </div>
+
+            <textarea id="txtDetalleObs" class="os-input" style="width:98%; height:2cm; resize:none; margin: 5px auto; display:block; background:#fff;" placeholder="Observaciones (Editable)..."></textarea>
+
+            <div class="os-row" style="justify-content:flex-start; align-items:center; margin-top:5px; gap:5px; padding-left: 5px;">
+                <input type="text" id="txtInfoNum" class="os-input" style="width:1.4cm; height:25px; font-weight:bold; font-size:11px; text-align:center;" readonly placeholder="Num">
+                <input type="text" id="txtInfoFecha" class="os-input" style="width:2.2cm; height:25px; font-weight:bold; font-size:11px; text-align:center;" readonly placeholder="Fecha">
+                <input type="text" id="txtInfoCliente" class="os-input" style="width:10cm; height:25px; font-weight:bold; font-size:11px;" readonly placeholder="Nombre del Cliente">
+                <button class="os-btn" style="height:25px; width:3cm;" onclick="if(osSeleccionada) imprimirTicket(osSeleccionada); else alert('Seleccione una OS primero');">Imprimir</button>
+                <button class="os-btn" style="height:25px; width:2.5cm;" onclick="guardarCambiosOS()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="winProductos" class="window" style="top:80px; left:80px; width: 700px; height: 450px;">
+        <div class="title-bar"><span>Registro de Productos</span><span class="btn-close" onclick="cerrarVentana('winProductos')">✕</span></div>
+        <div class="win-body" style="background: #e0e0e0;">
+            <div class="win-tabs">
+                <div class="win-tab active" onclick="switchTab('prod', 'Fab')" id="tabprodFab">Fabricantes</div>
+                <div class="win-tab" onclick="switchTab('prod', 'Prod')" id="tabprodProd">Productos</div>
+                <div class="win-tab" onclick="switchTab('prod', 'Ext')" id="tabprodExt">Existencias</div>
+            </div>
+
+            <div id="contentprodProd" class="tab-content" style="display:none; flex-direction:column; gap:5px;">
+                <fieldset>
+                    <legend>Identificación</legend>
+                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 5px;">
+                        <label><input type="radio" name="prodMode" value="nuevo" id="chkProdNuevo" onclick="toggleModoProducto('nuevo')"> Nuevo Registro</label>
+                        <label><input type="radio" name="prodMode" value="cambiar" id="chkProdCambiar" onclick="toggleModoProducto('cambiar')"> Cambiar</label>
+                    </div>
+                    <div class="os-row">
+                        <div class="frm-col" style="flex:1;">
+                            <span class="frm-label">Fabricante</span>
+                            <select id="regProdFabSel" class="frm-select" onchange="seleccionarFabricante()"></select>
+                        </div>
+                        <div class="frm-col" style="flex:1;">
+                            <span class="frm-label">Modelo</span>
+                            <select id="regProdModSel" class="frm-select" disabled onchange="seleccionarModelo()"></select>
+                        </div>
+                    </div>
+                    <div class="os-row" style="margin-top:5px;">
+                        <input type="text" id="regProdDesc" class="frm-input" style="width:100%;" placeholder="Descripción / Código pintado...">
+                    </div>
+                    <div class="os-row" style="margin-top:5px;">
+                        <div class="frm-col" style="width:100px;">
+                            <span class="frm-label">Unidad</span>
+                            <select class="frm-select"><option>pc</option></select>
+                        </div>
+                    </div>
+                    <fieldset style="margin-top:5px;">
+                        <legend>Tipo</legend>
+                        <div style="display:flex; gap:15px;">
+                            <label><input type="radio" name="prodType" checked> Cartucho</label>
+                            <label><input type="radio" name="prodType"> Servicios</label>
+                            <label><input type="radio" name="prodType"> Otro</label>
+                        </div>
+                    </fieldset>
+                </fieldset>
+                <fieldset style="margin-top: 5px;">
+                    <legend>Valor</legend>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div style="display: flex; gap: 5px;">
+                            <div class="frm-col" style="width:2cm;"><span class="frm-label">Recarga</span><input type="text" id="regProdP1" class="frm-input" value="0.00"></div>
+                            <div class="frm-col" style="width:2cm;"><span class="frm-label">Venta</span><input type="text" id="regProdP2" class="frm-input" value="0.00"></div>
+                            <div class="frm-col" style="width:2cm;"><span class="frm-label">Reventa</span><input type="text" id="regProdP3" class="frm-input" value="0.00"></div>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <button class="os-btn" style="width:2.5cm;">Guardar</button>
+                            <button class="os-btn" style="width:2.5cm;">Borrar</button>
+                            <button class="os-btn" style="width:2.5cm;" onclick="cerrarVentana('winProductos')">Cancelar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div id="contentprodFab" class="tab-content active" style="display:flex; flex-direction:column; gap:5px;">
+                <fieldset>
+                    <legend>Mantenimiento de Fabricantes</legend>
+                    <div style="display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 5px;">
+                        <label><input type="radio" name="fabMode" checked> Nuevo Registro</label>
+                        <label><input type="radio" name="fabMode"> Cambiar</label>
+                    </div>
+                    <div class="os-row" style="align-items:flex-end;">
+                        <div class="frm-col" style="width:1cm;">
+                            <span class="frm-label">Código</span>
+                            <input type="text" class="frm-input" style="width:100%;">
+                        </div>
+                        <div class="frm-col" style="flex:1;">
+                            <span class="frm-label">Fabricante</span>
+                            <input type="text" class="frm-input" style="width:100%;">
+                        </div>
+                        <div class="frm-col" style="flex:1;">
+                            <span class="frm-label">Seleccionar</span>
+                            <select class="frm-select" id="selFabList"></select>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 5px; margin-top: 10px; justify-content:flex-end;">
+                        <button class="os-btn" style="width:2.5cm;">Guardar</button>
+                        <button class="os-btn" style="width:2.5cm;">Borrar</button>
+                        <button class="os-btn" style="width:2.5cm;">Cerrar</button>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div id="contentprodExt" class="tab-content" style="display:none; flex-direction:column; gap:10px;">
+                <fieldset style="flex:1;">
+                    <legend>Control de Existencias</legend>
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1; display:flex; flex-direction:column; gap:5px;">
+                            <div class="os-row">
+                                <div class="frm-col" style="flex:1;">
+                                    <span class="frm-label">Fabricante</span>
+                                    <select class="frm-select"><option>HP</option><option>Samsung</option></select>
+                                </div>
+                                <div class="frm-col" style="flex:1;">
+                                    <span class="frm-label">Modelo</span>
+                                    <select class="frm-select"><option>85A</option><option>101</option></select>
+                                </div>
+                            </div>
+                            <div class="os-row" style="margin-top:10px; align-items:flex-end;">
+                                <div class="frm-col">
+                                    <span class="frm-label">Stock</span>
+                                    <input type="text" class="frm-input" style="width:80px; text-align:center;" value="0">
+                                </div>
+                                <button class="os-btn">Actualización</button>
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">
+                            <input type="text" style="width:3.5cm; height:4.5cm; border:1px solid #7f9db9;">
+                            <div style="display:flex; gap:5px;">
+                                <button class="os-btn" style="font-size:10px;">Abriendo fotos</button>
+                                <button class="os-btn" style="font-size:10px;">Ver informe</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div id="winBackup" class="window" style="top:80px; left:100px; width: 500px; height: 350px;">
+        <div class="title-bar"><span>Asistente de copia de seguridad</span><span class="btn-close" onclick="cerrarVentana('winBackup')">✕</span></div>
+        <div class="win-body" style="display:flex; flex-direction:column; gap:10px;">
+            <div style="padding: 10px; background:#fff; border:1px solid #ccc;">Seleccione la ruta de destino y pulse la Nueva copia de seguridad</div>
+            <fieldset>
+                <legend>Copia de seguridad actual</legend>
+                <div style="display: flex; gap: 5px;">
+                    <select class="frm-select" style="flex:1;"><option>C: [SSD Local]</option></select>
+                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                        <button class="os-btn" style="width: 80px;">Nuevo</button>
+                        <button class="os-btn" style="width: 80px;">Restaurar</button>
+                    </div>
+                </div>
+                <div style="height: 100px; border: 1px solid #999; background: #fff; margin-top: 5px; overflow-y:scroll;">
+                    <div style="padding:2px;">📁 C:\</div>
+                    <div style="padding:2px; padding-left:15px;">📁 Program Files</div>
+                    <div style="padding:2px; padding-left:30px; background:#000080; color:white;">📁 SISCartuchos</div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Detalles de la Última copia de seguridad</legend>
+                <div class="os-row"><span style="width:50px;">Fecha:</span> <span>07. feb. 2025</span></div>
+                <div class="os-row"><span style="width:50px;">Horas:</span> <span>16:04:35</span></div>
+                <div class="os-row"><span style="width:50px;">Ruta:</span> <span style="font-size:9px;">C:\Archivos\Backup\2025\SISCartuchos_Backup.mdb</span></div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div id="winOpciones" class="window" style="top:80px; left:120px; width: 600px; height: 400px;">
+        <div class="title-bar"><span>Opciones</span><span class="btn-close" onclick="cerrarVentana('winOpciones')">✕</span></div>
+        <div class="win-body">
+            <div class="win-tabs">
+                <div class="win-tab" onclick="switchTab('opc', 'Acc')" id="tabopcAcc">Acceso</div>
+                <div class="win-tab active" onclick="switchTab('opc', 'Cia')" id="tabopcCia">Compañía</div>
+                <div class="win-tab" onclick="switchTab('opc', 'Gen')" id="tabopcGen">General</div>
+                <div class="win-tab" onclick="switchTab('opc', 'Per')" id="tabopcPer">Personalización</div>
+            </div>
+            
+            <div id="contentopcCia" class="tab-content active" style="display:flex; flex-direction:column; gap:5px;">
+                <fieldset>
+                    <legend>Identificación</legend>
+                    <div class="frm-col">
+                        <span class="frm-label">Compañía</span>
+                        <input type="text" class="frm-input" value="SISCOBAJIO CELAYA TONER Y TINTAS">
+                    </div>
+                    <div class="os-row">
+                        <div class="frm-col" style="flex:1;"><span class="frm-label">Dirección</span><input type="text" class="frm-input" value="Av. El Sauz 100 Laureles 1ra"></div>
+                        <div class="frm-col" style="width:120px;"><span class="frm-label">Teléfono</span><input type="text" class="frm-input" value="461.613.5556"></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Plazo de Garantía / Observaciones</legend>
+                    <textarea class="frm-textarea" style="height:100px;">CONSEJOS PARA ALARGAR LA VIDA DE SUS CARTUCHOS: TONERS NO utilizar hojas gruesas, NO reciclar hojas...</textarea>
+                </fieldset>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: auto;">
+                    <button class="os-btn">Guardar</button>
+                    <button class="os-btn" onclick="cerrarVentana('winOpciones')">Cancelar</button>
+                </div>
+            </div>
+            
+            <div id="contentopcAcc" class="tab-content" style="display:none;"><div class="os-row"><span style="width:80px;">Usuario:</span><input type="text" class="frm-input"></div></div>
+            <div id="contentopcGen" class="tab-content" style="display:none;"><label><input type="checkbox" checked> Opciones generales...</label></div>
+            <div id="contentopcPer" class="tab-content" style="display:none;"><span class="frm-label">Piel / Skin:</span><select class="frm-select"><option>Avenger</option></select></div>
+        </div>
+    </div>
+
+    <div id="winClientes" class="window" style="top:80px; left:50px;">
         <div class="title-bar"><span>Registro del Cliente</span><span class="btn-close" onclick="cerrarVentana('winClientes')">✕</span></div>
         <div class="win-body" style="background: #e4e4e4;">
             <div class="client-form">
-                
                 <div class="frm-header">
                     <span style="font-size:12px; font-weight:bold;">Datos del Cliente</span>
                     <div class="frm-radios">
@@ -292,7 +477,6 @@
                         <label style="cursor:pointer;"><input type="radio" name="modo" value="cambiar" onchange="cambiarModo('cambiar')"> Cambiar</label>
                     </div>
                 </div>
-
                 <div class="frm-row">
                     <div class="frm-col" style="width: 80px;"><span class="frm-label">Código</span><input type="text" id="cliCodigo" class="frm-input" value="AUTO" disabled></div>
                     <div class="frm-col" style="width: 90%;"><span class="frm-label">Nombre del Cliente</span><div style="display: flex; gap: 5px;"><input type="text" id="cliNombre" class="frm-input" style="flex: 1.5;" placeholder="Nombre del cliente..."><input type="text" id="cliBusqueda" class="frm-input" style="flex: 1;" list="listaClientes" placeholder="🔍 Buscar aquí..." oninput="detectarCliente()" disabled><datalist id="listaClientes"></datalist></div></div>
@@ -306,7 +490,7 @@
                     <div class="frm-col" style="flex: 1;"><span class="frm-label">Estado</span><input type="text" id="cliEstado" class="frm-input"></div>
                     <div class="frm-col" style="flex: 1.5;"><span class="frm-label">Nombre del Contacto</span><input type="text" id="cliContacto" class="frm-input"></div>
                 </div>
-                <div class="frm-row" style="margin-top: 5px; border: 1px dotted #999; padding: 3px;">
+                <div class="frm-row">
                     <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 1</span><input type="text" id="cliTel1" class="frm-input"></div>
                     <div class="frm-col" style="flex: 0.5;"><span class="frm-label">C.P.</span><input type="text" id="cliCP" class="frm-input" style="text-align: center;"></div>
                     <div class="frm-col" style="flex: 1;"><span class="frm-label">Teléfono 2</span><input type="text" id="cliTel2" class="frm-input"></div>
@@ -315,7 +499,6 @@
                     <div class="frm-col" style="flex: 1;"><span class="frm-label">Correo Electronico</span><input type="text" id="cliEmail" class="frm-input"></div>
                 </div>
                 <div class="frm-col"><span class="frm-label">Observaciones</span><textarea id="cliObs" class="frm-textarea"></textarea></div>
-                
                 <div class="bottom-actions">
                     <div class="frm-col" style="margin-right: auto;"><span class="frm-label">Fecha de registro</span><input type="date" class="frm-input" value="2025-01-27" style="width: 120px;"></div>
                     <div class="big-btn-group">
@@ -329,9 +512,8 @@
         </div>
     </div>
     
-    <div id="winGraficos" class="window" style="top:60px; left:60px; width: 750px; height: 500px;"><div class="title-bar"><span>Gráfico de Unidad Financiera</span><span class="btn-close" onclick="cerrarVentana('winGraficos')">✕</span></div><div class="win-body"><div style="text-align:center; margin-bottom: 5px; font-weight:bold; font-size:14px; font-family:'Tahoma';">VENDAS Y RECARGAS ÚLTIMOS 12 MESES</div><div class="chart-container"><canvas id="miGrafico"></canvas></div><div class="chart-controls"><fieldset class="chart-fieldset"><legend class="chart-legend">Opciones</legend><select id="selPeriodo" class="frm-select" style="width: 100px;"><option value="meses">Meses</option><option value="semanas">Semanas</option></select><select id="selTipoGrafico" class="frm-select" style="width: 120px;"><option value="bar">Barras 2D</option><option value="bar3d">Barras 3D (Sim)</option><option value="line">Líneas 2D</option><option value="line3d">Líneas 3D (Sim)</option></select><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer; font-weight:bold;" onclick="actualizarGrafico()">Exponer</button><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer;" onclick="window.print()">Imprimir</button></fieldset></div></div></div>
+    <div id="winGraficos" class="window" style="top:80px; left:60px; width: 750px; height: 500px;"><div class="title-bar"><span>Gráfico de Unidad Financiera</span><span class="btn-close" onclick="cerrarVentana('winGraficos')">✕</span></div><div class="win-body"><div style="text-align:center; margin-bottom: 5px; font-weight:bold; font-size:14px; font-family:'Tahoma';">VENDAS Y RECARGAS ÚLTIMOS 12 MESES</div><div class="chart-container"><canvas id="miGrafico"></canvas></div><div class="chart-controls"><fieldset class="chart-fieldset"><legend class="chart-legend">Opciones</legend><select id="selPeriodo" class="frm-select" style="width: 100px;" onchange="actualizarGrafico()"><option value="meses">Meses</option><option value="semanas">Semanas</option></select><select id="selMesGrafico" class="frm-select" style="width: 120px; display:none;" onchange="actualizarGrafico()"><option value="ene">Enero</option><option value="feb">Febrero</option><option value="mar">Marzo</option></select><select id="selTipoGrafico" class="frm-select" style="width: 120px;"><option value="bar">Barras 2D</option><option value="bar3d">Barras 3D (Sim)</option><option value="line">Líneas 2D</option><option value="line3d">Líneas 3D (Sim)</option></select><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer; font-weight:bold;" onclick="actualizarGrafico()">Exponer</button><button class="frm-input" style="width: 80px; background: #eee; cursor:pointer;" onclick="window.print()">Imprimir</button></fieldset></div></div></div>
     <div id="winTotalizador" class="window" style="top:100px; left:100px;"><div class="title-bar"><span>📠 Caja / Totalizador</span><span class="btn-close" onclick="cerrarVentana('winTotalizador')">✕</span></div><div class="win-body"></div></div>
-    <div id="winProductos" class="window" style="top:120px; left:140px;"><div class="title-bar"><span>📦 Productos</span><span class="btn-close" onclick="cerrarVentana('winProductos')">✕</span></div><div class="win-body"></div></div>
 
 <script>
     const DB_CLIENTES = [
@@ -342,17 +524,35 @@
         { id: 1024, nombre: "CENTRO ESCOLAR MANUEL DOBLADO", direccion: "Madero #33 - Centro", colonia: "Centro", ciudad: "Celaya", estado: "GTO", cp: "38000", contacto: "Directora", tel1: "461-888-9999", tel2: "", email: "escolar@mail.com", obs: "" }
     ];
     const DB_PRODUCTOS = [ { codigo: "104 RCMLT-01045", desc: "104 RCMLT-01045", precio: 390.00 }, { codigo: "101 RCMLT-0101S", desc: "101 RCMLT-0101S", precio: 450.00 }, { codigo: "122 RCH561HL BK", desc: "122 RCH561HL BK", precio: 109.00 } ];
+    
+    const DB_AUTO_PARTS = {
+        "HEWLETT PACKARD": [
+            { modelo: "85A", codigo: "HP-0085A", desc: "Cartucho Toner Negro 85A", recarga: 150, venta: 450, reventa: 400 },
+            { modelo: "12A", codigo: "HP-0012A", desc: "Cartucho Toner Negro 12A", recarga: 140, venta: 430, reventa: 380 }
+        ],
+        "CANON": [
+            { modelo: "128", codigo: "CN-0128", desc: "Cartucho Canon 128", recarga: 160, venta: 460, reventa: 410 }
+        ],
+        "LEXMARK": [
+            { modelo: "E120", codigo: "LX-E120", desc: "Toner Lexmark E120", recarga: 180, venta: 500, reventa: 450 }
+        ]
+    };
+
     let itemsOrden = []; 
     let ordenesGeneradas = []; 
     let osSeleccionada = null; 
 
     window.onload = function() {
         activarArrastre();
-        cargarListaDataList(); 
-        llenarComboProductos();
-        cambiarModo('nuevo');
+        cargarListaDataList();
+        cargarListaProductos();
+        toggleModoProducto('cambiar'); // Inicializar
         
-        document.getElementById('osFechaEntrega').valueAsDate = new Date();
+        // Inicializar Fecha/Hora en OS
+        const now = new Date();
+        document.getElementById('osFechaEntrega').valueAsDate = now;
+        const timeStr = now.toTimeString().substring(0, 5);
+        document.getElementById('osHoraEntrega').value = timeStr;
     };
     
     function salirDelSistema() {
@@ -363,21 +563,86 @@
         }
     }
 
-    /* --- LÓGICA ORDEN DE SERVICIO --- */
-    function cambiarTabOS(tab) {
-        document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        if(tab === 'abrir') { document.getElementById('tabAbrir').classList.add('active'); document.getElementById('contentAbrir').classList.add('active'); } 
-        else if (tab === 'leer') { document.getElementById('tabLeer').classList.add('active'); document.getElementById('contentLeer').classList.add('active'); actualizarListaOSGlobal(); }
+    // --- MANEJO GENÉRICO DE TABS ---
+    function switchTab(prefix, tabName) {
+        document.querySelectorAll(`.win-tab[id^="tab${prefix}"]`).forEach(t => t.classList.remove('active'));
+        document.querySelectorAll(`.tab-content[id^="content${prefix}"]`).forEach(c => {
+            c.classList.remove('active');
+            c.style.display = 'none'; 
+        });
+        document.getElementById(`tab${prefix}${tabName}`).classList.add('active');
+        const content = document.getElementById(`content${prefix}${tabName}`);
+        content.classList.add('active');
+        // Restore display type
+        if(prefix === 'os' && tabName === 'Abrir') content.style.display = 'flex'; 
+        else if (prefix === 'os' && tabName === 'Leer') content.style.display = 'flex'; 
+        else if (prefix === 'prod' && tabName === 'Fab') content.style.display = 'flex'; 
+        else content.style.display = 'flex'; 
     }
 
+    /* --- LÓGICA REGISTRO DE PRODUCTOS --- */
+    function toggleModoProducto(modo) {
+        const selFab = document.getElementById('regProdFabSel');
+        const selMod = document.getElementById('regProdModSel');
+        
+        if (modo === 'nuevo') {
+            document.getElementById('chkProdNuevo').checked = true;
+            selFab.innerHTML = '<option value="">- Sel -</option>';
+            for (let fab in DB_AUTO_PARTS) {
+                selFab.innerHTML += `<option value="${fab}">${fab}</option>`;
+            }
+            selMod.innerHTML = '';
+            selMod.disabled = true;
+            document.getElementById('regProdCod').value = "";
+            document.getElementById('regProdDesc').value = "";
+            document.getElementById('regProdP1').value = "0.00";
+            document.getElementById('regProdP2').value = "0.00";
+            document.getElementById('regProdP3').value = "0.00";
+        } else {
+            selFab.innerHTML = '<option value="">- Sel -</option>';
+            for (let fab in DB_AUTO_PARTS) {
+                selFab.innerHTML += `<option value="${fab}">${fab}</option>`;
+            }
+        }
+    }
+
+    function seleccionarFabricante() {
+        const fab = document.getElementById('regProdFabSel').value;
+        const selMod = document.getElementById('regProdModSel');
+        selMod.innerHTML = '<option value="">- Modelo -</option>';
+        
+        if (fab && DB_AUTO_PARTS[fab]) {
+            selMod.disabled = false;
+            DB_AUTO_PARTS[fab].forEach(item => {
+                selMod.innerHTML += `<option value="${item.modelo}">${item.modelo}</option>`;
+            });
+        } else {
+            selMod.disabled = true;
+        }
+    }
+
+    function seleccionarModelo() {
+        const fab = document.getElementById('regProdFabSel').value;
+        const mod = document.getElementById('regProdModSel').value;
+        
+        if (fab && mod) {
+            const data = DB_AUTO_PARTS[fab].find(i => i.modelo === mod);
+            if (data) {
+                document.getElementById('regProdCod').value = data.codigo;
+                document.getElementById('regProdDesc').value = data.desc;
+                document.getElementById('regProdP1').value = data.recarga.toFixed(2);
+                document.getElementById('regProdP2').value = data.venta.toFixed(2);
+                document.getElementById('regProdP3').value = data.reventa.toFixed(2);
+            }
+        }
+    }
+
+    /* --- LÓGICA ORDEN DE SERVICIO (CREACIÓN) --- */
     function filtrarClientesOS() {
         const txt = document.getElementById('osCliNombre').value.toLowerCase();
         const grid = document.getElementById('gridClientesOS');
         grid.innerHTML = '';
-        
         if(txt.length === 0) return; 
-
         DB_CLIENTES.forEach(c => {
             if(c.nombre.toLowerCase().includes(txt) || c.id.toString().includes(txt)) {
                 const tr = document.createElement('tr');
@@ -392,26 +657,34 @@
     function seleccionarClienteOS(cliente, rowElement) {
         document.getElementById('osCliCodigo').value = cliente.id;
         document.getElementById('osCliNombre').value = cliente.nombre;
-        
         const filas = document.getElementById('gridClientesOS').getElementsByTagName('tr');
-        for (let i = 0; i < filas.length; i++) {
-            filas[i].classList.remove('selected-row');
-        }
-        
-        if(rowElement) {
-            rowElement.classList.add('selected-row');
-        }
+        for (let i = 0; i < filas.length; i++) filas[i].classList.remove('selected-row');
+        if(rowElement) rowElement.classList.add('selected-row');
     }
 
-    function llenarComboProductos() { const sel = document.getElementById('osProdItem'); DB_PRODUCTOS.forEach(p => { sel.innerHTML += `<option value="${p.codigo}">${p.desc}</option>`; }); }
-    function actualizarPrecioOS() { const cod = document.getElementById('osProdItem').value; const prod = DB_PRODUCTOS.find(p => p.codigo === cod); if(prod) { document.getElementById('osValor').value = prod.precio.toFixed(2); } }
+    function cargarListaProductos() {
+        const datalist = document.getElementById('listaProductosOS');
+        datalist.innerHTML = '';
+        DB_PRODUCTOS.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p.codigo; 
+            option.innerText = p.desc; 
+            datalist.appendChild(option);
+        });
+    }
+
+    function detectarPrecioProducto() {
+        const val = document.getElementById('osProdItem').value;
+        const prod = DB_PRODUCTOS.find(p => p.codigo === val || p.desc === val); 
+        if(prod) { document.getElementById('osValor').value = prod.precio.toFixed(2); } 
+        else { document.getElementById('osValor').value = ""; }
+    }
     
     function limpiarInputsProducto() {
         document.getElementById('osProdItem').value = "";
         document.getElementById('osCtd').value = "1";
         document.getElementById('osSerie').value = "";
         document.getElementById('osValor').value = "";
-        
         itemsOrden = [];
         dibujarGridProductos();
     }
@@ -421,16 +694,12 @@
         if(!codProd) return alert("Seleccione un producto");
         itemsOrden.push({ tipo: descTipo, producto: codProd, serie: serie, ctd: ctd, precio: precio });
         dibujarGridProductos(); 
-        
         document.getElementById('osProdItem').value = "";
         document.getElementById('osCtd').value = "1";
         document.getElementById('osSerie').value = "";
         document.getElementById('osValor').value = "";
-
         const wrapper = document.getElementById('wrapperProductos');
-        if(wrapper) {
-            wrapper.scrollTop = wrapper.scrollHeight;
-        }
+        if(wrapper) wrapper.scrollTop = wrapper.scrollHeight;
     }
     
     function dibujarGridProductos() { const tbody = document.getElementById('gridProductosAgregados'); tbody.innerHTML = ''; itemsOrden.forEach((item, index) => { tbody.innerHTML += `<tr><td>${index + 1}</td><td>${item.tipo} - ${item.producto}</td><td>${item.serie}</td></tr>`; }); }
@@ -441,6 +710,9 @@
         
         const obs = document.getElementById('osObs').value;
         const entregaDate = document.getElementById('osFechaEntrega').value;
+        const entregaTime = document.getElementById('osHoraEntrega').value;
+        let entregaFull = entregaDate;
+        if(entregaTime) entregaFull += ' ' + entregaTime;
 
         const nuevaOS = { 
             num: 20500 + ordenesGeneradas.length + 1, 
@@ -449,18 +721,109 @@
             items: [...itemsOrden], 
             estado: 'Abierta',
             observaciones: obs,
-            entrega: entregaDate
+            entrega: entregaFull
         };
         
         ordenesGeneradas.push(nuevaOS); 
-        
-        imprimirTicket(nuevaOS);
+        imprimirTicket(nuevaOS); 
 
         itemsOrden = []; dibujarGridProductos(); document.getElementById('osCliCodigo').value = ""; document.getElementById('osCliNombre').value = ""; document.getElementById('osObs').value = "";
-        cambiarTabOS('leer');
+        
+        cerrarVentana('winOS'); 
+        abrirVentana('winListaOS'); 
+        actualizarListaOSGlobal(); 
     }
 
-    // --- FUNCIÓN DE IMPRESIÓN CON DOBLE COPIA (MEDIA CUARTILLA) ---
+    /* --- LÓGICA HISTORIAL (LISTA O.S. y Cierre) --- */
+    function actualizarListaOSGlobal() {
+        const filtroTxt = document.getElementById('filtroClienteHistorial').value.toLowerCase();
+        const radios = document.getElementsByName('filtroOS');
+        let filtroEstado = 'todas';
+        for(let r of radios) if(r.checked) filtroEstado = r.value;
+
+        const tbody = document.getElementById('listaOSGlobal'); 
+        tbody.innerHTML = '';
+        
+        ordenesGeneradas.forEach(os => { 
+            if(filtroTxt && !os.cliente.toLowerCase().includes(filtroTxt)) return;
+            if(filtroEstado === 'abiertas' && os.estado !== 'Abierta') return;
+            if(filtroEstado === 'cerradas' && os.estado !== 'Cerrada') return;
+
+            const descMain = os.items.length > 0 ? `${os.items[0].tipo} - ${os.items[0].producto}` : 'Sin Artículos';
+
+            const tr = document.createElement('tr'); 
+            tr.innerHTML = `<td>${os.num}</td><td>${descMain}</td><td>${os.estado}</td>`; 
+            
+            tr.onclick = () => {
+                verDetalleOS(os);
+                Array.from(tbody.children).forEach(row => row.classList.remove('selected-row'));
+                tr.classList.add('selected-row');
+            }; 
+            tr.style.cursor = 'pointer'; 
+            tbody.appendChild(tr); 
+        });
+        
+        if(!osSeleccionada) {
+             document.getElementById('detalleOSSeleccionada').innerHTML = '';
+             limpiarFooterInfo();
+        }
+    }
+    
+    function cerrarOSSeleccionada() {
+        if(!osSeleccionada) return alert("Seleccione una orden de la lista primero.");
+        if(osSeleccionada.estado === 'Cerrada') return alert("Esta orden ya se encuentra cerrada.");
+        
+        const confirmar = confirm("¿Desea cerrar la O.S. #" + osSeleccionada.num + "?");
+        if(confirmar) {
+            osSeleccionada.estado = 'Cerrada';
+            alert("Orden cerrada exitosamente.");
+            actualizarListaOSGlobal(); 
+            document.getElementById('detalleOSSeleccionada').innerHTML = '';
+            limpiarFooterInfo();
+            osSeleccionada = null;
+        }
+    }
+    
+    function verDetalleOS(os) { 
+        osSeleccionada = os; 
+        const tbody = document.getElementById('detalleOSSeleccionada'); 
+        tbody.innerHTML = ''; 
+        os.items.forEach((item, idx) => { 
+            const subtotal = (item.ctd * item.precio).toFixed(2); 
+            const desc = `${item.tipo} ${item.producto}`; 
+            
+            tbody.innerHTML += `<tr>
+                <td style="text-align:right;">${idx + 1}</td>
+                <td style="text-align:left;">${desc}</td>
+                <td style="text-align:right;">${item.producto}</td>
+                <td style="text-align:left;">${item.serie}</td>
+                <td style="text-align:left;">${item.precio}</td>
+                <td style="text-align:left;">${item.ctd}</td>
+                <td style="text-align:right;">${subtotal}</td>
+            </tr>`; 
+        });
+
+        document.getElementById('txtDetalleObs').value = os.observaciones || '';
+        document.getElementById('txtInfoNum').value = os.num;
+        document.getElementById('txtInfoFecha').value = os.fecha;
+        document.getElementById('txtInfoCliente').value = os.cliente;
+    }
+
+    function guardarCambiosOS() {
+        if(!osSeleccionada) return alert("Seleccione una orden para guardar cambios.");
+        const nuevasObs = document.getElementById('txtDetalleObs').value;
+        osSeleccionada.observaciones = nuevasObs;
+        alert("Observaciones actualizadas correctamente.");
+    }
+
+    function limpiarFooterInfo() {
+        document.getElementById('txtInfoNum').value = "";
+        document.getElementById('txtInfoFecha').value = "";
+        document.getElementById('txtInfoCliente').value = "";
+        document.getElementById('txtDetalleObs').value = "";
+    }
+
+    // --- FUNCIÓN DE IMPRESIÓN ---
     function imprimirTicket(os) {
         const clientData = DB_CLIENTES.find(c => c.nombre === os.cliente) || { direccion: '', tel1: '', email: '' };
 
@@ -483,7 +846,6 @@
             </tr>`;
         });
 
-        // PLANTILLA UNICA DE TICKET
         const ticketTemplate = `
             <div class="ticket-half">
                 <div class="header-top">APERTURA DE LA ORDEN DE SERVICIO</div>
@@ -530,11 +892,7 @@
 
                 <div>
                     <div class="total-box">TOTAL * &nbsp;&nbsp; $ ${total.toFixed(2)}</div>
-
-                    <div class="obs-container">
-                        <strong>Observaciones:</strong> ${os.observaciones || 'NINGUNA'}
-                    </div>
-
+                    <div class="obs-container"><strong>Observaciones:</strong> ${os.observaciones || 'NINGUNA'}</div>
                     <div class="footer-disclaimer">Declaro estar al tanto de la información</div>
                     <div class="footer-sign">Firma del Cliente</div>
                 </div>
@@ -548,74 +906,29 @@
                 <title>O.S. #${os.num}</title>
                 <style>
                     body { font-family: 'Arial', sans-serif; font-size: 11px; margin: 0; padding: 0; box-sizing: border-box; height: 100vh; overflow: hidden; }
-                    
-                    @media print {
-                        @page { size: letter; margin: 0.5cm; }
-                        body { margin: 0; }
-                    }
-
-                    /* Contenedor de media cuartilla (aprox 48% para dar espacio al corte) */
-                    .ticket-half {
-                        height: 48vh;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        padding: 10px;
-                        box-sizing: border-box;
-                        border: 1px dotted #eee; /* Guía visual sutil */
-                    }
-
-                    .cut-line {
-                        height: 2vh;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: #666;
-                        font-size: 10px;
-                        overflow: hidden;
-                    }
-                    .cut-dashed {
-                        width: 100%;
-                        border-top: 1px dashed #666;
-                        margin: 0 10px;
-                    }
-
+                    @media print { @page { size: letter; margin: 0.5cm; } body { margin: 0; } }
+                    .ticket-half { height: 48vh; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; box-sizing: border-box; border: 1px dotted #eee; }
+                    .cut-line { height: 2vh; display: flex; align-items: center; justify-content: center; color: #666; font-size: 10px; overflow: hidden; }
+                    .cut-dashed { width: 100%; border-top: 1px dashed #666; margin: 0 10px; }
                     .header-top { text-align: center; color: #666; font-size: 9px; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
                     .main-title { text-align: center; font-size: 14px; font-weight: bold; color: #333; margin: 2px 0 10px 0; }
-                    
                     .header-container { display: flex; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 5px; }
-                    
-                    .logo-box {
-                        width: 80px; height: 60px; 
-                        border: 1px solid #999; border-radius: 6px; 
-                        display: flex; align-items: center; justify-content: center;
-                        margin-right: 15px; flex-shrink: 0;
-                    }
+                    .logo-box { width: 80px; height: 60px; border: 1px solid #999; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
                     .logo-text { transform: rotate(-90deg); font-weight: bold; color: #aaa; font-size: 12px; }
-                    
                     .info-box { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 2px; font-size: 10px; }
                     .info-row { display: flex; justify-content: space-between; }
-                    
                     table { width: 100%; border-collapse: collapse; margin-top: 5px; }
                     th { border: 1px solid #000; background: #eee; padding: 3px; font-size: 9px; font-weight: bold; text-align: left; }
                     td { border: 1px solid #000; padding: 3px; font-size: 10px; vertical-align: middle; }
-                    
                     .total-box { text-align: right; font-weight: bold; font-size: 12px; margin-top: 5px; padding-right: 5px; }
                     .obs-container { margin-top: 5px; font-size: 10px; font-style: italic; border: 1px dotted #ccc; padding: 3px; }
-                    
                     .footer-disclaimer { margin-top: 15px; text-align: right; font-size: 9px; color: #444; margin-bottom: 15px; }
                     .footer-sign { border-top: 1px solid #000; width: 200px; text-align: center; margin-left: auto; padding-top: 2px; font-weight: bold; font-size: 10px; }
                 </style>
             </head>
             <body>
                 ${ticketTemplate}
-
-                <div class="cut-line">
-                    <div class="cut-dashed"></div>
-                    <span>✂ CORTAR AQUÍ</span>
-                    <div class="cut-dashed"></div>
-                </div>
-
+                <div class="cut-line"><div class="cut-dashed"></div><span>✂ CORTAR AQUÍ</span><div class="cut-dashed"></div></div>
                 ${ticketTemplate}
             </body>
             </html>
@@ -623,55 +936,96 @@
         
         printWin.document.close();
         printWin.focus();
-        setTimeout(() => {
-            printWin.print();
-            printWin.close();
-        }, 500);
-    }
-
-    function actualizarListaOSGlobal() {
-        const tbody = document.getElementById('listaOSGlobal'); tbody.innerHTML = '';
-        if(ordenesGeneradas.length === 0) { tbody.innerHTML += `<tr><td>20503</td><td>Descripción Recarga de Cartucho...</td><td>Abierta</td></tr>`; }
-        ordenesGeneradas.forEach(os => { 
-            const tr = document.createElement('tr'); 
-            tr.innerHTML = `<td>${os.num}</td><td>O.S. de ${os.cliente}</td><td>${os.estado}</td>`; 
-            
-            tr.onclick = () => {
-                verDetalleOS(os);
-                Array.from(tbody.children).forEach(row => row.classList.remove('selected-row'));
-                tr.classList.add('selected-row');
-            }; 
-            tr.style.cursor = 'pointer'; 
-            tbody.appendChild(tr); 
-        });
-    }
-    
-    function verDetalleOS(os) { 
-        osSeleccionada = os; 
-        const tbody = document.getElementById('detalleOSSeleccionada'); 
-        tbody.innerHTML = ''; 
-        os.items.forEach((item, idx) => { 
-            const subtotal = (item.ctd * item.precio).toFixed(2); 
-            tbody.innerHTML += `<tr><td>${idx + 1}</td><td>${item.tipo}</td><td>${item.producto}</td><td>${item.serie}</td><td>${item.precio}</td><td>${item.ctd}</td><td>${subtotal}</td></tr>`; 
-        }); 
+        setTimeout(() => { printWin.print(); printWin.close(); }, 500);
     }
 
     /* --- GRÁFICOS --- */
     let chartInstance = null;
-    const DATA_MESES = { labels: ['Ene','Feb','Mar','Abr'], data: [100,200,150,300] };
-    const DATA_SEMANAS = { labels: ['S1','S2','S3'], data: [50,80,60] };
+    const DATA_MESES_FULL = { labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], data: [100, 120, 150, 170, 180, 200, 210, 190, 220, 240, 250, 300] };
+    const DATA_SEMANAS_BASE = { labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'], data: [20, 40, 30, 50] };
+
     function actualizarGrafico() {
-        const periodo = document.getElementById('selPeriodo').value; const tipoSelect = document.getElementById('selTipoGrafico').value; let chartType = tipoSelect.includes('line') ? 'line' : 'bar'; const dataSet = (periodo === 'meses') ? DATA_MESES : DATA_SEMANAS; const ctx = document.getElementById('miGrafico').getContext('2d');
-        if(chartInstance) chartInstance.destroy(); chartInstance = new Chart(ctx, { type: chartType, data: { labels: dataSet.labels, datasets: [{ label: 'Ventas', data: dataSet.data, backgroundColor: 'red', borderColor: 'darkred', borderWidth: 1, fill: false, tension: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display: false} } } });
+        const periodo = document.getElementById('selPeriodo').value;
+        const tipoSelect = document.getElementById('selTipoGrafico').value;
+        const selMes = document.getElementById('selMesGrafico');
+        
+        // Mostrar/Ocultar selector de mes
+        if(periodo === 'semanas') {
+            selMes.style.display = 'block';
+        } else {
+            selMes.style.display = 'none';
+        }
+
+        let chartType = tipoSelect.includes('line') ? 'line' : 'bar';
+        // Determinar datos
+        let dataSet;
+        if (periodo === 'meses') {
+            dataSet = DATA_MESES_FULL;
+        } else {
+            // Simular cambio de datos por mes seleccionado (solo variando un poco para efecto visual)
+            const monthVal = selMes.value; 
+            // En un sistema real, aquí se filtrarían los datos por mes
+            const factor = monthVal.length; // Factor tonto para variar la data
+            dataSet = { 
+                labels: DATA_SEMANAS_BASE.labels, 
+                data: DATA_SEMANAS_BASE.data.map(d => d + factor * 5) 
+            };
+        }
+
+        const ctx = document.getElementById('miGrafico').getContext('2d');
+        if(chartInstance) chartInstance.destroy();
+        
+        chartInstance = new Chart(ctx, { 
+            type: chartType, 
+            data: { 
+                labels: dataSet.labels, 
+                datasets: [{ 
+                    label: 'Ventas', 
+                    data: dataSet.data, 
+                    backgroundColor: 'red', 
+                    borderColor: 'darkred', 
+                    borderWidth: 1, 
+                    fill: false, 
+                    tension: 0.1 
+                }] 
+            }, 
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { legend: {display: false} } 
+            } 
+        });
     }
 
     /* --- OTROS --- */
-    function cargarListaDataList() { const datalist = document.getElementById('listaClientes'); datalist.innerHTML = ''; DB_CLIENTES.forEach(c => { const option = document.createElement('option'); option.value = c.nombre; datalist.appendChild(option); }); }
+    function cargarListaDataList() { 
+        const datalist = document.getElementById('listaClientes'); 
+        const datalistHistorial = document.getElementById('listaClientesHistorial'); 
+        datalist.innerHTML = ''; 
+        datalistHistorial.innerHTML = '';
+        DB_CLIENTES.forEach(c => { 
+            const option = document.createElement('option'); 
+            option.value = c.nombre; 
+            datalist.appendChild(option); 
+            datalistHistorial.appendChild(option.cloneNode(true)); 
+        }); 
+    }
     function cambiarModo(modo) { const txtBusqueda = document.getElementById('cliBusqueda'); const txtNombre = document.getElementById('cliNombre'); if(modo === 'nuevo') { limpiarFormulario(); txtBusqueda.disabled = true; txtNombre.disabled = false; txtNombre.focus(); } else if (modo === 'cambiar') { txtBusqueda.disabled = false; txtNombre.value = ""; txtBusqueda.focus(); } }
     function detectarCliente() { const valorBusqueda = document.getElementById('cliBusqueda').value; const c = DB_CLIENTES.find(c => c.nombre === valorBusqueda); if(c) { document.getElementById('cliNombre').value = c.nombre; document.getElementById('cliDireccion').value = c.direccion; document.getElementById('cliColonia').value = c.colonia; document.getElementById('cliCiudad').value = c.ciudad; document.getElementById('cliEstado').value = c.estado; document.getElementById('cliContacto').value = c.contacto; document.getElementById('cliTel1').value = c.tel1; document.getElementById('cliTel2').value = c.tel2; document.getElementById('cliCP').value = c.cp; document.getElementById('cliEmail').value = c.email; document.getElementById('cliObs').value = c.obs; } }
     function limpiarFormulario() { const inputs = document.querySelectorAll('#winClientes input[type="text"], #winClientes textarea'); inputs.forEach(input => { if(input.id !== 'cliCodigo') input.value = ""; }); }
     let zIndex = 100;
-    function abrirVentana(id) { const win = document.getElementById(id); win.style.display = 'flex'; win.style.zIndex = ++zIndex; if(id === 'winGraficos') setTimeout(actualizarGrafico, 100); }
+    function abrirVentana(id) { 
+        const win = document.getElementById(id); 
+        win.style.display = 'flex'; 
+        win.style.zIndex = ++zIndex; 
+        
+        // Inicialización específica por ventana
+        if(id === 'winGraficos') setTimeout(actualizarGrafico, 100); 
+        if(id === 'winProductos') {
+            switchTab('prod', 'Fab'); // Por defecto Fabricantes
+            toggleModoProducto('nuevo');
+        }
+    }
     function cerrarVentana(id) { document.getElementById(id).style.display = 'none'; }
     function activarArrastre() { document.querySelectorAll('.title-bar').forEach(bar => { const win = bar.parentElement; let isDragging = false, startX, startY, initialLeft, initialTop; const startDrag = (e) => { isDragging = true; win.style.zIndex = ++zIndex; const cX = e.touches ? e.touches[0].clientX : e.clientX; const cY = e.touches ? e.touches[0].clientY : e.clientY; startX = cX; startY = cY; const r = win.getBoundingClientRect(); initialLeft = r.left; initialTop = r.top; }; const moveDrag = (e) => { if(!isDragging) return; e.preventDefault(); const cX = e.touches ? e.touches[0].clientX : e.clientX; const cY = e.touches ? e.touches[0].clientY : e.clientY; win.style.left = (initialLeft + (cX - startX)) + 'px'; win.style.top = (initialTop + (cY - startY)) + 'px'; }; const stopDrag = () => { isDragging = false; }; bar.addEventListener('mousedown', startDrag); document.addEventListener('mousemove', moveDrag); document.addEventListener('mouseup', stopDrag); bar.addEventListener('touchstart', startDrag, {passive:false}); document.addEventListener('touchmove', moveDrag, {passive:false}); document.addEventListener('touchend', stopDrag); }); }
 </script>
